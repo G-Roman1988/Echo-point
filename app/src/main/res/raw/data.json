@@ -1,0 +1,341 @@
+{
+  "Categories": [
+    {
+      "Name": "Toate",
+      "Major": "0",
+      "Numbers": []
+    },
+    {
+      "Name": "Trolebuz",
+      "Major": "1",
+      "Numbers": [
+        {
+          "Number": "Toate",
+          "Minor": "0",
+          "Informations": "Ve-ți vedea toate trolebuzele"
+        },
+        {
+          "Number": "1",
+          "Minor": "1",
+          "Informations": "Str. Sarmizegetusa <-> Oraș Durlești"
+        },
+        {
+          "Number": "2",
+          "Minor": "2",
+          "Informations": "Bd. Traian <-> Str. Alexandru Pușkin"
+        },
+        {
+          "Number": "3",
+          "Minor": "3",
+          "Informations": "Str. Alba Iulia <-> Str. Miorița"
+        },
+        {
+          "Number": "4",
+          "Minor": "4",
+          "Informations": "Bd. Dacia <-> Str. Ion Creangă"
+        },
+        {
+          "Number": "5",
+          "Minor": "5",
+          "Informations": "Șos. Muncești <-> Str. Bariera Sculeni"
+        },
+        {
+          "Number": "6",
+          "Minor": "6",
+          "Informations": "Nu există"
+        },
+        {
+          "Number": "7",
+          "Minor": "7",
+          "Informations": "Str. Uzinelor <-> Str. 31 August 1989"
+        },
+        {
+          "Number": "8",
+          "Minor": "8",
+          "Informations": "Bd. Traian <-> Parcul La Izvor"
+        },
+        {
+          "Number": "9",
+          "Minor": "9",
+          "Informations": "Autogara Sud - Vest <-> Autogara Nord"
+        },
+        {
+          "Number": "10",
+          "Minor": "10",
+          "Informations": "Bd. Moscova <-> Str. Miorița"
+        },
+        {
+          "Number": "11",
+          "Minor": "11",
+          "Informations": "Nu există"
+        },
+        {
+          "Number": "12",
+          "Minor": "12",
+          "Informations": "Bd. Mircea cel Bătrân <-> Str. Alexei Mateevici"
+        },
+        {
+          "Number": "13",
+          "Minor": "13",
+          "Informations": "Bd. Mircea cel Bătrân <-> Str. Dokuceaev"
+        },
+        {
+          "Number": "14",
+          "Minor": "14",
+          "Informations": "Nu există"
+        },
+        {
+          "Number": "15",
+          "Minor": "15",
+          "Informations": "Nu există"
+        },
+        {
+          "Number": "16",
+          "Minor": "16",
+          "Informations": "Str. Uzinelor <-> Str. 31 August 1989"
+        },
+        {
+          "Number": "17",
+          "Minor": "17",
+          "Informations": "Autogara Sud - Vest <-> Gara Chișinău"
+        },
+        {
+          "Number": "18",
+          "Minor": "18",
+          "Informations": "Nu există"
+        },
+        {
+          "Number": "19",
+          "Minor": "19",
+          "Informations": "Nu există"
+        },
+        {
+          "Number": "20",
+          "Minor": "20",
+          "Informations": "Parcul de Troleibuze Nr. 2 <-> Strada V.Docuceaev"
+        },
+        {
+          "Number": "21",
+          "Minor": "21",
+          "Informations": "Str. Meșterul Manole <-> Str. Alba Iulia"
+        },
+        {
+          "Number": "22",
+          "Minor": "22",
+          "Informations": "Str. Alba Iulia <-> Bd. Dacia"
+        },
+        {
+          "Number": "23",
+          "Minor": "23",
+          "Informations": "Bd. Mircea cel Bătrân <-> Parcul La Izvor"
+        },
+        {
+          "Number": "24",
+          "Minor": "24",
+          "Informations": "Bd. Mircea cel Bătrân <-> Str. Miorița"
+        },
+        {
+          "Number": "25",
+          "Minor": "25",
+          "Informations": "Str. Ceucari <-> Str. 31 August 1989"
+        },
+        {
+          "Number": "26",
+          "Minor": "26",
+          "Informations": "Bd. Mircea cel Bătrân <-> Str. Ceucari"
+        },
+        {
+          "Number": "27",
+          "Minor": "27",
+          "Informations": "Str. Ceucari <-> Str. Ion Creangă"
+        },
+        {
+          "Number": "28",
+          "Minor": "28",
+          "Informations": "Str. Ceucari <-> Str. Burebista"
+        },
+        {
+          "Number": "29",
+          "Minor": "29",
+          "Informations": "Universitatea Agrară <-> Grădina Publică Ștefan cel Mare și Sfânt"
+        },
+        {
+          "Number": "30",
+          "Minor": "30",
+          "Informations": "Aeroportul Internațional <-> Piața Marii Adunări Naționale"
+        },
+        {
+          "Number": "31",
+          "Minor": "31",
+          "Informations": "Nu există"
+        },
+        {
+          "Number": "32",
+          "Minor": "32",
+          "Informations": "Str. 31 August 1989 <-> Com. Stăuceni"
+        },
+        {
+          "Number": "33",
+          "Minor": "33",
+          "Informations": "Nu există"
+        },
+        {
+          "Number": "34",
+          "Minor": "34",
+          "Informations": "Str. Tighina <-> Sat Trușeni"
+        },
+        {
+          "Number": "35",
+          "Minor": "35",
+          "Informations": "Str. Vasile Alecsandri <-> Oraș Durlești"
+        },
+        {
+          "Number": "36",
+          "Minor": "36",
+          "Informations": "Str. Ismail <-> Oraș Ialoveni"
+        },
+        {
+          "Number": "37",
+          "Minor": "37",
+          "Informations": "Gara Chișinău <-> Com. Bubuieci"
+        },
+        {
+          "Number": "38",
+          "Minor": "38",
+          "Informations": "Str. Alba Iulia <-> Str. Burebista"
+        }
+      ]
+    },
+    {
+      "Name": "Autobuz",
+      "Major": "2",
+      "Numbers": [
+        {
+          "Number": "Toate",
+          "Minor": "0",
+          "Informations": null
+        },
+        {
+          "Number": "1",
+          "Minor": "1",
+          "Informations": null
+        },
+        {
+          "Number": "2",
+          "Minor": "2",
+          "Informations": null
+        },
+        {
+          "Number": "3",
+          "Minor": "3",
+          "Informations": null
+        },
+        {
+          "Number": "4",
+          "Minor": "4",
+          "Informations": null
+        },
+        {
+          "Number": "5",
+          "Minor": "5",
+          "Informations": null
+        },
+        {
+          "Number": "6",
+          "Minor": "6",
+          "Informations": null
+        },
+        {
+          "Number": "7",
+          "Minor": "7",
+          "Informations": null
+        },
+        {
+          "Number": "8",
+          "Minor": "8",
+          "Informations": null
+        },
+        {
+          "Number": "9",
+          "Minor": "9",
+          "Informations": null
+        },
+        {
+          "Number": "10",
+          "Minor": "10",
+          "Informations": null
+        },
+        {
+          "Number": "11",
+          "Minor": "11",
+          "Informations": null
+        },
+        {
+          "Number": "12",
+          "Minor": "12",
+          "Informations": null
+        },
+        {
+          "Number": "13",
+          "Minor": "13",
+          "Informations": null
+        },
+        {
+          "Number": "14",
+          "Minor": "14",
+          "Informations": null
+        },
+        {
+          "Number": "15",
+          "Minor": "15",
+          "Informations": null
+        },
+        {
+          "Number": "16",
+          "Minor": "16",
+          "Informations": null
+        },
+        {
+          "Number": "17",
+          "Minor": "17",
+          "Informations": null
+        },
+        {
+          "Number": "18",
+          "Minor": "18",
+          "Informations": null
+        },
+        {
+          "Number": "19",
+          "Minor": "19",
+          "Informations": null
+        },
+        {
+          "Number": "20",
+          "Minor": "20",
+          "Informations": null
+        },
+        {
+          "Number": "21",
+          "Minor": "21",
+          "Informations": null
+        },
+        {
+          "Number": "22",
+          "Minor": "22",
+          "Informations": null
+        },
+        {
+          "Number": "23",
+          "Minor": "23",
+          "Informations": null
+        },
+        {
+          "Number": "24",
+          "Minor": "24",
+          "Informations": null
+        }
+      ]
+    }
+  ]
+}

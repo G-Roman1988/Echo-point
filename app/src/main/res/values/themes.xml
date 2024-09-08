@@ -1,0 +1,14 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+
+    <style name="Theme.EchoPoint" parent="Theme.AppCompat.Light.NoActionBar" />
+
+    <style name="Theme.EchoPoint.NoActionBar">
+        <item name="windowActionBar">false</item>
+        <item name="windowNoTitle">true</item>
+    </style>
+
+    <style name="Theme.EchoPoint.AppBarOverlay" parent="ThemeOverlay.AppCompat.Dark.ActionBar" />
+
+    <style name="Theme.EchoPoint.PopupOverlay" parent="ThemeOverlay.AppCompat.Light" />
+</resources>
