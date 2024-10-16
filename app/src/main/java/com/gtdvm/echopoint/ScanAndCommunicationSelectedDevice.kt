@@ -11,6 +11,7 @@ import androidx.appcompat.app.AppCompatActivity
 import androidx.core.view.ViewCompat
 import androidx.core.view.WindowInsetsCompat
 import androidx.lifecycle.ViewModelProvider
+import com.gtdvm.echopoint.bluetoothService.BluetoothServices
 
 class ScanAndCommunicationSelectedDevice : AppCompatActivity() {
     private lateinit var bluetoothServices: BluetoothServices
@@ -40,13 +41,13 @@ private var macAddresByCandedateDevice: String = ""
 iBeaconsView = ViewModelProvider(this)[IBeaconsView::class.java]
         iBeaconsView.beacons.observe(this){deviceBeacon ->
             macAddresByCandedateDevice = deviceBeacon[0].macAddress!!
-            bluetoothServices.stopScan()
+
             bluetoothServices.connectToDevice(macAddresByCandedateDevice)
         }
 
         messageTextView.text = getString(R.string.startBle)
 
-        bluetoothServices.startBluetoothScan()
+
 
         callButton.setOnClickListener{
 callButton.visibility = View.GONE
@@ -66,7 +67,7 @@ stopButton.visibility = View.GONE
      bluetoothServices.disConnect()
      finish()
  } else{
-     bluetoothServices.stopScan()
+
      finish()
  }
             }

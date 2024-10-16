@@ -12,6 +12,8 @@ import android.widget.TextView
 //import android.util.Log
 //import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProvider
+import com.gtdvm.echopoint.bluetoothService.BluetoothServices
+
 //import androidx.lifecycle.get
 
 

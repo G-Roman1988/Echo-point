@@ -11,7 +11,7 @@ import com.gtdvm.echopoint.IBeaconsView
 import com.gtdvm.echopoint.ListDevices
 import com.gtdvm.echopoint.R
 import org.altbeacon.beacon.*
-import org.altbeacon.bluetooth.BluetoothMedic
+//import org.altbeacon.bluetooth.BluetoothMedic
 
 
 
@@ -20,7 +20,7 @@ class IBeaconDeviceScanningService: Application() {
     //private var scanDisposable: Disposable? = null
     private val bleUUID = "A134D0B2-1DA2-1BA7-C94C-E8E00C9F7A2D" //"2D7A9F0C-E0E8-4CC9-A71B-A21DB2D034A1"
     //private val myIBeaconsRegion: Region = Region("IBeacons", Identifier.parse(bleUUID), null, null)
-    private val myIBeaconsRegion: Region = Region("IBeacons", null, null, null)
+     val myIBeaconsRegion = Region("all-beacons", null, null, null)
     //private val iBeaconsView: IBeaconsView by lazy { ViewModelProvider(this)[IBeaconsView::class.java] }
 
     override fun onCreate() {
@@ -31,7 +31,8 @@ BeaconManager.setDebug(true)
         parser.setHardwareAssistManufacturerCodes(arrayOf(0x004c).toIntArray())
         beaconManager.beaconParsers.add(parser)
         //BluetoothMedic.getInstance().enablePeriodicTests(this, BluetoothMedic.SCAN_TEST + BluetoothMedic.TRANSMIT_TEST)
-setupBeaconScanning()
+//setupBeaconScanning()
+        setupForegroundService()
     }
 
     fun setupBeaconScanning(){
