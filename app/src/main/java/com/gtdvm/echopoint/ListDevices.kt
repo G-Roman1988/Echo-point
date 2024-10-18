@@ -5,14 +5,22 @@ import androidx.appcompat.app.AppCompatActivity
 import androidx.activity.OnBackPressedCallback
 import android.content.Intent
 import android.os.Bundle
+import android.util.Log
 import android.widget.Button
 import androidx.recyclerview.widget.RecyclerView
 import androidx.recyclerview.widget.LinearLayoutManager
-import android.widget.Toast
 import androidx.lifecycle.ViewModelProvider
+import androidx.lifecycle.Observer
+import org.altbeacon.beacon.Beacon
+import org.altbeacon.beacon.BeaconManager
+import org.altbeacon.beacon.MonitorNotifier
+//import com.gtdvm.echopoint.BeaconScanPermissionsActivity
+//import com.gtdvm.echopoint.bluetoothService.BluetoothServices
+import com.gtdvm.echopoint.bluetoothService.IBeaconDeviceScanningService
 
 class ListDevices : AppCompatActivity() {
-    private lateinit var bluetoothServices: BluetoothServices
+    //private lateinit var bluetoothServices: BluetoothServices
+    private lateinit var iBeaconDeviceScanningService: IBeaconDeviceScanningService
     private lateinit var recyclerView: RecyclerView
     private lateinit var bleDevicesAdapter: BleDevicesAdapter
     private lateinit var iBeaconsView: IBeaconsView
@@ -21,7 +29,7 @@ class ListDevices : AppCompatActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_list_devices)
-bluetoothServices = BluetoothServices(this)
+//bluetoothServices = BluetoothServices(this)
         recyclerView = findViewById(R.id.resultScannerDevices)
         recyclerView.layoutManager = LinearLayoutManager (this)
         bleDevicesAdapter = BleDevicesAdapter (this) { device ->
@@ -32,24 +40,60 @@ onDeviceClick(device)
         iBeaconsView.beacons.observe(this) {deviceList ->
 bleDevicesAdapter.updateDevices(deviceList)
         }
-bluetoothServices.startBluetoothScan()
+
+        iBeaconDeviceScanningService = application as IBeaconDeviceScanningService
+
+        //I set up a Live Data observer for the signaling data
+val regionViewModel = BeaconManager.getInstanceForApplication(this).getRegionViewModel(iBeaconDeviceScanningService.myIBeaconsRegion)
+regionViewModel.regionState.observe(this, monitoringObserver)
+        regionViewModel.rangedBeacons.observe(this, rangingObserver)
+
+        //check if all permissions are accepted
+        if (!BeaconScanPermissionsActivity.allPermissionsGranted(this, true)){
+            // permissions are not supported and prompt the user
+            val intent = Intent(this, BeaconScanPermissionsActivity::class.java)
+            intent.putExtra("backgroundAccessRequested", true)
+            startActivity(intent)
+        } else {
+            //permissions are accepted and start foreground service and scan
+            if (BeaconManager.getInstanceForApplication(this).monitoredRegions.size == 0){
+                (application as IBeaconDeviceScanningService).setupBeaconScanning()
+            }
+        }
 
 val stopScaning: Button = findViewById(R.id.stopScaning)
         stopScaning.setOnClickListener {
-bluetoothServices.stopScan()
+
             startActivity(Intent(this, MainActivity::class.java))
             finishAffinity()
         }
     onBackPressedDispatcher.addCallback(this, object : OnBackPressedCallback(true) {
         override fun handleOnBackPressed() {
-            bluetoothServices.stopScan()
+
             finish()
         }
     })
     }
 
+    val monitoringObserver = Observer<Int> {state ->
+if (state == MonitorNotifier.OUTSIDE){
+Log.d("RESULT_SCAN", "nu este nimic în jur")
+} else {
+    Log.d("RESULT_SCAN", "ceva este înapropriere")
+}
+    }
+
+    val rangingObserver = Observer<Collection<Beacon>> {beacons ->
+if (BeaconManager.getInstanceForApplication(this).rangedRegions.size > 0){
+beacons.sortedBy { it.distance }
+    .map {
+Log.d("RESULT_SCAN", "Nume ${it.bluetoothName} mac adresa ${it.bluetoothAddress}")
+    }
+}
+    }
+
 private fun onDeviceClick(device: IBeacon) {
-    bluetoothServices.stopScan()
+
 val intentConnecting = Intent(applicationContext, CommunicationWithTheDevice::class.java)
     val selectedDevice = device.macAddress
     intentConnecting.putExtra("connectingTo", selectedDevice)
