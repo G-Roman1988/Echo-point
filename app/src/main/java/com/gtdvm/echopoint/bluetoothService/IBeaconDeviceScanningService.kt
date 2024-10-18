@@ -27,9 +27,12 @@ class IBeaconDeviceScanningService: Application() {
         super.onCreate()
         val beaconManager: BeaconManager = BeaconManager.getInstanceForApplication(this)
 BeaconManager.setDebug(true)
+        //val parser = BeaconParser().setBeaconLayout("m:2-3=0215,i:4-19,i:20-21,i:22-23,p:24-24")
+        //parser.setHardwareAssistManufacturerCodes(arrayOf(0x004c).toIntArray())
         val parser = BeaconParser().setBeaconLayout("m:2-3=0215,i:4-19,i:20-21,i:22-23,p:24-24")
         parser.setHardwareAssistManufacturerCodes(arrayOf(0x004c).toIntArray())
-        beaconManager.beaconParsers.add(parser)
+        beaconManager.getBeaconParsers().add( parser)
+        //beaconManager.beaconParsers.add(parser)
         //BluetoothMedic.getInstance().enablePeriodicTests(this, BluetoothMedic.SCAN_TEST + BluetoothMedic.TRANSMIT_TEST)
 //setupBeaconScanning()
         setupForegroundService()
@@ -73,6 +76,7 @@ builder.setChannelId(channel.id)
             Log.d("IBeaconDevice", "It is not detected")
         } else{
             Log.d("IBeaconDevice", "a new device is detected")
+            sendNotification()
         }
     }
 
@@ -81,6 +85,28 @@ builder.setChannelId(channel.id)
             Log.d("IBeaconDevice", "${detectinningBeacon.bluetoothName}  ${detectinningBeacon.bluetoothAddress}")
         }
 
+    }
+
+    private fun sendNotification() {
+        val builder = NotificationCompat.Builder(this, "beacon-ref-notification-id")
+            .setContentTitle("IBeaconDeviceScanningService")
+            .setContentText("A beacon is nearby.")
+            .setSmallIcon(R.drawable.ic_launcher_background)
+        val stackBuilder = TaskStackBuilder.create(this)
+        stackBuilder.addNextIntent(Intent(this, ListDevices::class.java))
+        val resultPendingIntent = stackBuilder.getPendingIntent(
+            0,
+            PendingIntent.FLAG_UPDATE_CURRENT + PendingIntent.FLAG_IMMUTABLE
+        )
+        builder.setContentIntent(resultPendingIntent)
+        val channel =  NotificationChannel("beacon-ref-notification-id",
+            "My Notification Name", NotificationManager.IMPORTANCE_DEFAULT)
+        channel.setDescription("My Notification Channel Description")
+        val notificationManager =  getSystemService(
+            Context.NOTIFICATION_SERVICE) as NotificationManager
+        notificationManager.createNotificationChannel(channel)
+        builder.setChannelId(channel.getId())
+        notificationManager.notify(1, builder.build())
     }
 
     private fun isPointer(deviceUUID: Identifier): Boolean {
