@@ -19,7 +19,7 @@
     <uses-permission android:name="android.permission.POST_NOTIFICATIONS" />
 
     <application
-        android:name=".bluetoothService.IBeaconDeviceScanningService"
+        android:name="com.gtdvm.echopoint.bluetoothService.IBeaconDeviceScanningService"
         android:allowBackup="true"
         android:enableOnBackInvokedCallback="true"
         android:fullBackupContent="@xml/backup_rules"
