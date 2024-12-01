@@ -5,8 +5,11 @@ package com.gtdvm.echopoint
 import android.content.Intent
 import android.os.Bundle
 import android.util.Log
-import android.widget.Button
-import androidx.activity.OnBackPressedCallback
+                        import android.view.View
+                        import android.widget.Button
+                        import android.widget.TextView
+                        import android.widget.Toast
+                        import androidx.activity.OnBackPressedCallback
 import androidx.appcompat.app.AppCompatActivity
 import androidx.lifecycle.Observer
 import androidx.recyclerview.widget.LinearLayoutManager
@@ -23,6 +26,7 @@ class ListDevices : AppCompatActivity() {
     private lateinit var iBeaconDeviceScanningService: IBeaconDeviceScanningService
     private lateinit var recyclerView: RecyclerView
     private lateinit var bleDevicesAdapter: BleDevicesAdapter
+    private lateinit var messageDialogText: TextView
 
 
     @SuppressLint("CheckResult")
@@ -43,6 +47,8 @@ class ListDevices : AppCompatActivity() {
         regionViewModel.regionState.observe(this, monitoringObserver)
         regionViewModel.rangedBeacons.observe(this, rangingObserver)
 
+         messageDialogText = findViewById(R.id.MessageTextDialog)
+        messageDialogText.visibility = View.INVISIBLE
         val stopScaning: Button = findViewById(R.id.stopScaning)
         stopScaning.setOnClickListener {
             val beaconManager = BeaconManager.getInstanceForApplication(this)
@@ -73,13 +79,13 @@ class ListDevices : AppCompatActivity() {
             startActivity(intent)
         } else {
             //permissions are accepted and start foreground service and scan
-            if (BeaconManager.getInstanceForApplication(this).monitoredRegions.size == 0){
+            if (BeaconManager.getInstanceForApplication(this).monitoredRegions.isEmpty()){
                 (application as IBeaconDeviceScanningService).setupBeaconScanning()
                 val beaconManager = BeaconManager.getInstanceForApplication(this)
                 beaconManager.startMonitoring(iBeaconDeviceScanningService.myIBeaconsRegion)
                 beaconManager.startRangingBeacons(iBeaconDeviceScanningService.myIBeaconsRegion)
             }
-            if (BeaconManager.getInstanceForApplication(this).rangedRegions.size == 0){
+            if (BeaconManager.getInstanceForApplication(this).rangedRegions.isEmpty()){
                 val beaconManager = BeaconManager.getInstanceForApplication(this)
                 beaconManager.startRangingBeacons(iBeaconDeviceScanningService.myIBeaconsRegion)
                 beaconManager.startMonitoring(iBeaconDeviceScanningService.myIBeaconsRegion)
@@ -91,8 +97,13 @@ class ListDevices : AppCompatActivity() {
     private val monitoringObserver = Observer<Int> {state ->
         if (state == MonitorNotifier.OUTSIDE){
             Log.d("RESULT_SCAN", "nu este nimic în jur")
+            recyclerView.visibility =View.INVISIBLE
+        messageDialogText.visibility = View.VISIBLE
+            messageDialogText.text = this.getString(R.string.startBle)
         } else {
             Log.d("RESULT_SCAN", "ceva este înapropriere")
+            recyclerView.visibility = View.VISIBLE
+            messageDialogText.visibility = View.INVISIBLE
         }
     }
 
@@ -100,7 +111,7 @@ class ListDevices : AppCompatActivity() {
     private val rangingObserver = Observer<Collection<Beacon>> {beacons ->
         Log.d("SearchFor", "callback to range")
         devicesFound.clear()
-        if (BeaconManager.getInstanceForApplication(this).rangedRegions.size > 0){
+        if (BeaconManager.getInstanceForApplication(this).rangedRegions.isNotEmpty()){
             beacons.sortedBy { it.distance }
                 .map { beacon ->
                     Log.d("RESULT_SCAN", "Nume ${beacon.bluetoothName} mac adresa ${beacon.bluetoothAddress}")
@@ -113,6 +124,8 @@ class ListDevices : AppCompatActivity() {
                             rssi = beacon.rssi
                         }
                         devicesFound.add(iBeacon)
+                    } else {
+Toast.makeText(applicationContext, "selecția DVS nu este în apropiere", Toast.LENGTH_SHORT).show()
                     }
                 }
         }

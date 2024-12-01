@@ -3,7 +3,7 @@
     <string name="mainMessage">Selectați o categorie pe butonul din stînga sus</string>
     <string name="dropdownName">Categoria</string>
     <string name="preferences">Favorite</string>
-    <string name="startBle">Se scanează ce este în jur</string>
+    <string name="startBle">În apropierea DVS nu este nimic,se scanează</string>
     <string name="Message_After_Connecting">Punctul de orentare este în apropiere pentru să vă orentați mai bine accesînd buton chemare </string>
     <string name="selectcategory">Categoria selectată: </string>
     <string name="title_activity_under_category">Sub Categorie</string>

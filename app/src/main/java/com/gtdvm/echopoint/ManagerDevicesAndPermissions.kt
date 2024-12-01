@@ -100,9 +100,9 @@ class PermissionsHelper(val context: Context) {
 
 open class BeaconScanPermissionsActivity: ManagerDevicesAndPermissions()  {
     lateinit var layout: LinearLayout
-    lateinit var permissionGroups: List<Array<String>>
-    lateinit var continueButton: Button
-    var scale: Float = 1.0f
+    private lateinit var permissionGroups: List<Array<String>>
+    private lateinit var continueButton: Button
+    private var scale: Float = 1.0f
         get() {
             return this.getResources().getDisplayMetrics().density
         }
@@ -116,8 +116,8 @@ open class BeaconScanPermissionsActivity: ManagerDevicesAndPermissions()  {
         layout.setBackgroundColor(Color.WHITE)
         layout.orientation = LinearLayout.VERTICAL
         val backgroundAccessRequested = intent.getBooleanExtra("backgroundAccessRequested", true)
-        val title = intent.getStringExtra("title") ?: "Permissions Needed"
-        val message = intent.getStringExtra("message") ?: "In order to scan for beacons, this app requrires the following permissions from the operating system.  Please tap each button to grant each required permission."
+        val title = intent.getStringExtra("title") ?: "Permisiuni necesare"
+        val message = intent.getStringExtra("message") ?: "Pentru a scana dispozitive BLE, această aplicație necesită următoarele permisiuni de la sistemul de operare.  Vă rugăm să atingeți fiecare buton pentru a acorda  fiecare permisiunea necesară."
         val continueButtonTitle = intent.getStringExtra("continueButtonTitle") ?: "Continue"
         val permissionButtonTitles = intent.getBundleExtra("permissionBundleTitles") ?: getDefaultPermissionTitlesBundle()
 
@@ -169,11 +169,11 @@ open class BeaconScanPermissionsActivity: ManagerDevicesAndPermissions()  {
         setContentView(layout)
     }
 
-    fun dp(value: Int): Int {
+    private fun dp(value: Int): Int {
         return (value * scale + 0.5f).toInt()
     }
 
-    val buttonClickListener = View.OnClickListener { button ->
+    private val buttonClickListener = View.OnClickListener { button ->
         val permissionsGroup = permissionGroups.get(button.id)
         promptForPermissions(permissionsGroup)
     }
@@ -189,7 +189,7 @@ open class BeaconScanPermissionsActivity: ManagerDevicesAndPermissions()  {
     }
 
 
-    fun allPermissionGroupsGranted(): Boolean {
+    private fun allPermissionGroupsGranted(): Boolean {
         for (permissionsGroup in permissionGroups) {
             if (!allPermissionsGranted(permissionsGroup)) {
                 return false
@@ -198,7 +198,7 @@ open class BeaconScanPermissionsActivity: ManagerDevicesAndPermissions()  {
         return true
     }
 
-    fun setButtonColors() {
+    private fun setButtonColors() {
         var index = 0
         for (permissionsGroup in this.permissionGroups) {
             val button = findViewById<Button>(index)
@@ -219,7 +219,7 @@ open class BeaconScanPermissionsActivity: ManagerDevicesAndPermissions()  {
         }
     }
 
-    fun promptForPermissions(permissionsGroup: Array<String>) {
+    private fun promptForPermissions(permissionsGroup: Array<String>) {
         if (!allPermissionsGranted(permissionsGroup)) {
             val firstPermission = permissionsGroup.first()
 
@@ -233,14 +233,14 @@ open class BeaconScanPermissionsActivity: ManagerDevicesAndPermissions()  {
             }
             else {
                 val builder = AlertDialog.Builder(this)
-                builder.setTitle("Can't request permission")
-                builder.setMessage("This permission has been previously denied to this app.  In order to grant it now, you must go to Android Settings to enable this permission.")
+                builder.setTitle("Nu pot solicita permisiunea")
+                builder.setMessage("Această permisiune a fost refuzată anterior acestei aplicații.  Pentru a o acorda acum, trebuie să accesați Setările Android pentru a activa această permisiune.")
                 builder.setPositiveButton("OK", null)
                 builder.show()
             }
         }
     }
-    fun allPermissionsGranted(permissionsGroup: Array<String>): Boolean {
+    private fun allPermissionsGranted(permissionsGroup: Array<String>): Boolean {
         val permissionsHelper = PermissionsHelper(this)
         for (permission in permissionsGroup) {
             if (!permissionsHelper.isPermissionGranted(permission)) {

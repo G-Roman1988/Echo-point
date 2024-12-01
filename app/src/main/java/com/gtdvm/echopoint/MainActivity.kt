@@ -1,5 +1,6 @@
 package com.gtdvm.echopoint
 
+
 import android.content.Intent
 //import android.content.pm.PackageManager
 import androidx.appcompat.app.AppCompatActivity
@@ -10,6 +11,7 @@ import android.widget.AdapterView
 import android.widget.ArrayAdapter
 import android.widget.Spinner
 import android.widget.Toast
+
 
 class MainActivity : AppCompatActivity(), ManagerDevices.BluetoothPermissionCallback {
     private lateinit var managerDevices: ManagerDevices
@@ -37,7 +39,7 @@ class MainActivity : AppCompatActivity(), ManagerDevices.BluetoothPermissionCall
     }
 
     override fun onLocationDisabled() {
-         managerDevices.requestActivateLocation(this)
+        managerDevices.requestActivateLocation(this)
     }
 
     override fun onBluetoothEnabled() {
@@ -62,7 +64,6 @@ class MainActivity : AppCompatActivity(), ManagerDevices.BluetoothPermissionCall
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)
         managerDevices = ManagerDevices(this)
-        bluetoothCheck()
         val dataServices = DataServices()
         val spinner:Spinner = findViewById(R.id.spinner)
         val categories = dataServices.getDropdownCategoryName(this)
@@ -85,13 +86,19 @@ class MainActivity : AppCompatActivity(), ManagerDevices.BluetoothPermissionCall
 
             }
         }
-val startScanButton: Button = findViewById(R.id.startScaning)
+        val startScanButton: Button = findViewById(R.id.startScaning)
         startScanButton.setOnClickListener {
             startActivity(Intent(this, ListDevices::class.java))
         }
     }
 
-    private fun bluetoothCheck () {
+    override fun onResume() {
+        super.onResume()
+        if (!BeaconScanPermissionsActivity.allPermissionsGranted(this, true)) {
+            val intent = Intent(this, BeaconScanPermissionsActivity::class.java)
+            intent.putExtra("backgroundAccessRequested", true)
+            startActivity(intent)
+        }
         if (!managerDevices.areBluetoothPermissionsGranted()) {
             Toast.makeText(applicationContext, getString(R.string.permissionsNotGranted), Toast.LENGTH_SHORT).show()
             managerDevices.requestBluetoothPermissions(this)
@@ -112,6 +119,7 @@ val startScanButton: Button = findViewById(R.id.startScaning)
             managerDevices.requestNotificationPermission()
         }
     }
+
 
 
 }
