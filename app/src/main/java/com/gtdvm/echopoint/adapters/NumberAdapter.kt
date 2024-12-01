@@ -1,11 +1,11 @@
 package com.gtdvm.echopoint
 
+import android.content.Context
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import androidx.recyclerview.widget.RecyclerView
 import android.widget.Button
-import android.content.Context
+import androidx.recyclerview.widget.RecyclerView
 
 class NumberAdapter(private val context: Context, private val numbers: List<String>, private val numeCategorie: String, private val onItemClick: (String) ->Unit) : RecyclerView.Adapter<NumberAdapter.NumberViewHolder>() {
     inner class NumberViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView) {

@@ -34,18 +34,18 @@ bluetoothServices = BluetoothServices(this)
 val callSoundButton: Button = findViewById(R.id.CallButton)
         val stopCallButton: Button = findViewById(R.id.StopCallButton)
         //notificationMessages.text = connectingToDeviceFormMacAddres //"se așteaptă notificările"
-bluetoothServices.connectToDevice(connectingToDeviceFormMacAddres.toString())
+        bluetoothServices.connectToDevice(connectingToDeviceFormMacAddres!!)
 
         callSoundButton.setOnClickListener {
             callSoundButton.visibility = View.GONE
             stopCallButton.visibility = View.VISIBLE
-            bluetoothServices.writeBleCharacteristic(bluetoothServices.currentBleConnection!!, CommandsOptions.START_COLL_VALUE)
+            bluetoothServices.writeBleCharacteristic(CommandsOptions.START_COLL_VALUE)
         }
 
         stopCallButton.setOnClickListener {
             stopCallButton.visibility = View.GONE
             callSoundButton.visibility = View.VISIBLE
-bluetoothServices.writeBleCharacteristic(bluetoothServices.currentBleConnection!!, CommandsOptions.STOP_COLL_VALUE)
+bluetoothServices.writeBleCharacteristic(CommandsOptions.STOP_COLL_VALUE)
         }
 
         onBackPressedDispatcher.addCallback(this, object : OnBackPressedCallback(true) {

@@ -1,5 +1,5 @@
 <resources>
-    <string name="app_name">Echo point</string>
+    <string name="app_name">GuideBeep</string>
     <string name="mainMessage">Selectați o categorie pe butonul din stînga sus</string>
     <string name="dropdownName">Categoria</string>
     <string name="preferences">Favorite</string>
