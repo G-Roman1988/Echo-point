@@ -26,13 +26,18 @@ class CommunicationWithTheDevice : AppCompatActivity() {
         setContentView(R.layout.activity_communication_with_the_device)
  val connectingToDeviceFormMacAddres = intent.getStringExtra("connectingTo")
         val notificationMessages: TextView = findViewById(R.id.NotificationText)
-bluetoothServices = BluetoothServices(this)
+        val callSoundButton: Button = findViewById(R.id.CallButton)
+        val stopCallButton: Button = findViewById(R.id.StopCallButton)
+        bluetoothServices = BluetoothServices(this)
         notificationViewModel = ViewModelProvider(this)[NotificationViewModel::class.java]
         notificationViewModel.notificationData.observe(this) {data ->
-        notificationMessages.text = data
+            if (data == CommandsOptions.STOP_COLL){
+                stopCallButton.visibility = View.GONE
+                callSoundButton.visibility = View.VISIBLE
+            } else {
+                notificationMessages.text = data
+            }
         }
-val callSoundButton: Button = findViewById(R.id.CallButton)
-        val stopCallButton: Button = findViewById(R.id.StopCallButton)
         //notificationMessages.text = connectingToDeviceFormMacAddres //"se așteaptă notificările"
         bluetoothServices.connectToDevice(connectingToDeviceFormMacAddres!!)
 

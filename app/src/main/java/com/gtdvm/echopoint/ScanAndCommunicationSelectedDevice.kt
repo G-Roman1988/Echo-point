@@ -45,7 +45,12 @@ class ScanAndCommunicationSelectedDevice : AppCompatActivity() {
         val stopButton: Button = findViewById(R.id.stopCallButton)
         notificationViewModel = ViewModelProvider(this)[NotificationViewModel::class.java]
         notificationViewModel.notificationData.observe(this) {data ->
-            messageTextView.text = data
+            if (data == CommandsOptions.STOP_COLL){
+            stopButton.visibility = View.GONE
+            callButton.visibility = View.VISIBLE
+            } else{
+                messageTextView.text = data
+            }
         }
         messageTextView.text = getString(R.string.startBle)
         //create the region and retrieve the monitoring, range of live data objects
@@ -72,6 +77,7 @@ class ScanAndCommunicationSelectedDevice : AppCompatActivity() {
                     bluetoothServices.disConnect()
                     finish()
                 } else{
+                    iBeaconDeviceScanningService.stopScaningForeGroundServices()
                     finish()
                 }
             }
@@ -119,9 +125,10 @@ class ScanAndCommunicationSelectedDevice : AppCompatActivity() {
                 .map { beacon ->
                     if (SelectedDevice.isSelectedDevice(beacon.id2.toInt(), beacon.id3.toInt())){
                         macAddresByCandedateDevice = beacon.bluetoothAddress
-                        val beaconManager = BeaconManager.getInstanceForApplication(this)
-                        beaconManager.stopRangingBeacons(iBeaconDeviceScanningService.myIBeaconsRegion)
-                        beaconManager.stopMonitoring(iBeaconDeviceScanningService.myIBeaconsRegion)
+                        iBeaconDeviceScanningService.stopScaningForeGroundServices()
+                        //val beaconManager = BeaconManager.getInstanceForApplication(this)
+                        //beaconManager.stopRangingBeacons(iBeaconDeviceScanningService.myIBeaconsRegion)
+                        //beaconManager.stopMonitoring(iBeaconDeviceScanningService.myIBeaconsRegion)
                         bluetoothServices.connectToDevice(macAddresByCandedateDevice)
                     }
                 }

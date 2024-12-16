@@ -9,6 +9,7 @@ import android.view.View
 import android.widget.Button
 import android.widget.AdapterView
 import android.widget.ArrayAdapter
+import android.view.ViewGroup
 import android.widget.Spinner
 import android.widget.Toast
 
@@ -68,8 +69,13 @@ class MainActivity : AppCompatActivity(), ManagerDevices.BluetoothPermissionCall
         val spinner:Spinner = findViewById(R.id.spinner)
         val categories = dataServices.getDropdownCategoryName(this)
         val adapter = ArrayAdapter(this, android.R.layout.simple_spinner_item, categories)
+        //val adapter = ArrayAdapter(this, R.layout.spinner_dropdown_item, categories)
         adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item)
+        //adapter.setDropDownViewResource(R.layout.spinner_dropdown_item)
         spinner.adapter = adapter
+
+
+
         spinner.onItemSelectedListener = object : AdapterView.OnItemSelectedListener {
             override fun onItemSelected(parent: AdapterView<*>, view: View?, position: Int, id: Long) {
                 val selectedCategory = parent.getItemAtPosition(position) as String
@@ -80,6 +86,7 @@ class MainActivity : AppCompatActivity(), ManagerDevices.BluetoothPermissionCall
                     intent.putExtra("selectedCategory", selectedCategory)
                     startActivity(intent)
                 }
+                spinner.setSelection(0)
             }
 
             override fun onNothingSelected(parent: AdapterView<*>) {

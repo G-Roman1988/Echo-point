@@ -1,11 +1,9 @@
 package com.gtdvm.echopoint
 
 import android.content.Context
-//import org.json.JSONArray
 import  org.json.JSONException
 import org.json.JSONObject
 import  java.io.IOException
-import  java.nio.charset.Charset
 
 
 class DataServices {
@@ -34,7 +32,7 @@ class DataServices {
         val buffer = ByteArray(size)
         inputStream.read(buffer)
         inputStream.close()
-        return buffer.toString(Charset.defaultCharset())
+        return buffer.toString(Charsets.UTF_8)
     }
 
     fun getNumbersForCategory (context: Context, categoryName: String): List<String>{

@@ -37,7 +37,7 @@
        android:id="@+id/MessageTextDialog"
        android:layout_width="wrap_content"
        android:layout_height="wrap_content"
-       android:visibility="gone"
+       android:visibility="visible"
        android:textSize="18sp"
        android:gravity="center"
        android:padding="16dp"

@@ -48,12 +48,13 @@ class ListDevices : AppCompatActivity() {
         regionViewModel.rangedBeacons.observe(this, rangingObserver)
 
          messageDialogText = findViewById(R.id.MessageTextDialog)
-        messageDialogText.visibility = View.INVISIBLE
+        messageDialogText.text = this.getString(R.string.startBle)
         val stopScaning: Button = findViewById(R.id.stopScaning)
         stopScaning.setOnClickListener {
-            val beaconManager = BeaconManager.getInstanceForApplication(this)
-            beaconManager.stopRangingBeacons(iBeaconDeviceScanningService.myIBeaconsRegion)
-            beaconManager.stopMonitoring(iBeaconDeviceScanningService.myIBeaconsRegion)
+            //val beaconManager = BeaconManager.getInstanceForApplication(this)
+            //beaconManager.stopRangingBeacons(iBeaconDeviceScanningService.myIBeaconsRegion)
+            //beaconManager.stopMonitoring(iBeaconDeviceScanningService.myIBeaconsRegion)
+            iBeaconDeviceScanningService.stopScaningForeGroundServices()
             startActivity(Intent(this, MainActivity::class.java))
             finishAffinity()
         }
@@ -61,9 +62,10 @@ class ListDevices : AppCompatActivity() {
         // override the back button event to stop scanning and close the activity
         onBackPressedDispatcher.addCallback(this, object : OnBackPressedCallback(true) {
             override fun handleOnBackPressed() {
-                val beaconManager = BeaconManager.getInstanceForApplication(this@ListDevices)
-                beaconManager.stopRangingBeacons(iBeaconDeviceScanningService.myIBeaconsRegion)
-                beaconManager.stopMonitoring(iBeaconDeviceScanningService.myIBeaconsRegion)
+                //val beaconManager = BeaconManager.getInstanceForApplication(this@ListDevices)
+                //beaconManager.stopRangingBeacons(iBeaconDeviceScanningService.myIBeaconsRegion)
+                //beaconManager.stopMonitoring(iBeaconDeviceScanningService.myIBeaconsRegion)
+                iBeaconDeviceScanningService.stopScaningForeGroundServices()
                 finish()
             }
         })
@@ -124,6 +126,7 @@ class ListDevices : AppCompatActivity() {
                             rssi = beacon.rssi
                         }
                         devicesFound.add(iBeacon)
+                        messageDialogText.visibility = View.GONE
                     } else {
 Toast.makeText(applicationContext, "selecția DVS nu este în apropiere", Toast.LENGTH_SHORT).show()
                     }

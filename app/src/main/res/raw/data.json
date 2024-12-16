@@ -12,22 +12,22 @@
         {
           "Number": "Toate",
           "Minor": "0",
-          "Informations": "Ve-ți vedea toate trolebuzele"
+          "Informations": ""
         },
         {
           "Number": "1",
           "Minor": "1",
-          "Informations": "Str. Sarmizegetusa <-> Oraș Durlești"
+          "Informations": "Str. Sarmizegetusa <-> Oraş Durleşti"
         },
         {
           "Number": "2",
           "Minor": "2",
-          "Informations": "Bd. Traian <-> Str. Alexandru Pușkin"
+          "Informations": "Bd. Traian <-> Str. Alexandru Puşkin"
         },
         {
           "Number": "3",
           "Minor": "3",
-          "Informations": "Str. Alba Iulia <-> Str. Miorița"
+          "Informations": "Str. Alba Iulia <-> Str. Mioriţa"
         },
         {
           "Number": "4",
@@ -37,7 +37,7 @@
         {
           "Number": "5",
           "Minor": "5",
-          "Informations": "Șos. Muncești <-> Str. Bariera Sculeni"
+          "Informations": "Şos. Munceşti <-> Str. Bariera Sculeni"
         },
         {
           "Number": "6",
@@ -62,7 +62,7 @@
         {
           "Number": "10",
           "Minor": "10",
-          "Informations": "Bd. Moscova <-> Str. Miorița"
+          "Informations": "Bd. Moscova <-> Str. Mioriţa"
         },
         {
           "Number": "11",
@@ -97,7 +97,7 @@
         {
           "Number": "17",
           "Minor": "17",
-          "Informations": "Autogara Sud - Vest <-> Gara Chișinău"
+          "Informations": "Autogara Sud - Vest <-> Gara Chişinău"
         },
         {
           "Number": "18",
@@ -117,7 +117,7 @@
         {
           "Number": "21",
           "Minor": "21",
-          "Informations": "Str. Meșterul Manole <-> Str. Alba Iulia"
+          "Informations": "Str. Meşterul Manole <-> Str. Alba Iulia"
         },
         {
           "Number": "22",
@@ -132,7 +132,7 @@
         {
           "Number": "24",
           "Minor": "24",
-          "Informations": "Bd. Mircea cel Bătrân <-> Str. Miorița"
+          "Informations": "Bd. Mircea cel Bătrân <-> Str. Mioriţa"
         },
         {
           "Number": "25",
@@ -157,12 +157,12 @@
         {
           "Number": "29",
           "Minor": "29",
-          "Informations": "Universitatea Agrară <-> Grădina Publică Ștefan cel Mare și Sfânt"
+          "Informations": "Universitatea Agrară <-> Grădina Publică Ştefan cel Mare şi Sfânt"
         },
         {
           "Number": "30",
           "Minor": "30",
-          "Informations": "Aeroportul Internațional <-> Piața Marii Adunări Naționale"
+          "Informations": "Aeroportul Internaţional <-> Piaţa Marii Adunări Naționale"
         },
         {
           "Number": "31",
@@ -182,22 +182,22 @@
         {
           "Number": "34",
           "Minor": "34",
-          "Informations": "Str. Tighina <-> Sat Trușeni"
+          "Informations": "Str. Tighina <-> Sat Truşeni"
         },
         {
           "Number": "35",
           "Minor": "35",
-          "Informations": "Str. Vasile Alecsandri <-> Oraș Durlești"
+          "Informations": "Str. Vasile Alecsandri <-> Oraş Durleşti"
         },
         {
           "Number": "36",
           "Minor": "36",
-          "Informations": "Str. Ismail <-> Oraș Ialoveni"
+          "Informations": "Str. Ismail <-> Oraş Ialoveni"
         },
         {
           "Number": "37",
           "Minor": "37",
-          "Informations": "Gara Chișinău <-> Com. Bubuieci"
+          "Informations": "Gara Chişinău <-> Com. Bubuieci"
         },
         {
           "Number": "38",
@@ -218,122 +218,257 @@
         {
           "Number": "1",
           "Minor": "1",
-          "Informations": null
+          "Informations": "nu există"
         },
         {
           "Number": "2",
           "Minor": "2",
-          "Informations": null
+          "Informations": "Str. Vasile Alecsandri <-> Oraş Cricova "
         },
         {
           "Number": "3",
           "Minor": "3",
-          "Informations": null
+          "Informations": "nu există"
         },
         {
           "Number": "4",
           "Minor": "4",
-          "Informations": null
+          "Informations": "Str. Independenţei <-> Com. Băcioi"
         },
         {
           "Number": "5",
           "Minor": "5",
-          "Informations": null
+          "Informations": "Bd. Cuza Vodă <-> Str. Bucovinei"
         },
         {
           "Number": "6",
           "Minor": "6",
-          "Informations": null
+          "Informations": "nu există"
         },
         {
           "Number": "7",
           "Minor": "7",
-          "Informations": null
+          "Informations": "nu există"
         },
         {
           "Number": "8",
           "Minor": "8",
-          "Informations": null
+          "Informations": "nu există"
         },
         {
           "Number": "9",
           "Minor": "9",
-          "Informations": null
+          "Informations": "Piaţa Dimitrie Cantemir <-> Oraş Codru"
         },
         {
           "Number": "10",
           "Minor": "10",
-          "Informations": null
+          "Informations": "Str. Vasile Alecsandri <-> Sat Grătieşti"
         },
         {
           "Number": "11",
           "Minor": "11",
-          "Informations": null
+          "Informations": "Str. Ismail <-> Piaţa Dimitrie Cantemir"
         },
         {
           "Number": "12",
           "Minor": "12",
-          "Informations": null
+          "Informations": "nu există"
         },
         {
           "Number": "13",
           "Minor": "13",
-          "Informations": null
+          "Informations": "nu există"
         },
         {
           "Number": "14",
           "Minor": "14",
-          "Informations": null
+          "Informations": "nu există"
         },
         {
           "Number": "15",
           "Minor": "15",
-          "Informations": null
+          "Informations": "nu există"
         },
         {
           "Number": "16",
           "Minor": "16",
-          "Informations": null
+          "Informations": "Universitatea Agrară <-> Oraş Vatra"
         },
         {
           "Number": "17",
           "Minor": "17",
-          "Informations": null
+          "Informations": "nu există"
         },
         {
           "Number": "18",
           "Minor": "18",
-          "Informations": null
+          "Informations": "Str. Ismail <-> Oraş Sângera"
         },
         {
           "Number": "19",
           "Minor": "19",
-          "Informations": null
+          "Informations": "Bd. Moscova <-> Str. Valea Crucii"
         },
         {
           "Number": "20",
           "Minor": "20",
-          "Informations": null
+          "Informations": "nu există"
         },
         {
           "Number": "21",
           "Minor": "21",
-          "Informations": null
+          "Informations": "nu există"
         },
         {
           "Number": "22",
           "Minor": "22",
-          "Informations": null
+          "Informations": "nu există"
         },
         {
           "Number": "23",
           "Minor": "23",
-          "Informations": null
+          "Informations": "Str. Ismail <-> Bd. Mircea cel Bătrân"
         },
         {
           "Number": "24",
           "Minor": "24",
-          "Informations": null
+          "Informations": "Str. Tighina <-> Sat Coloniţa "
+        },
+        {
+          "Number": "25",
+          "Minor": "25",
+          "Informations": "nu există"
+        },
+        {
+          "Number": "26",
+          "Minor": "26",
+          "Informations": "Str. Liviu Deleanu <-> Str. Doina"
+        },
+        {
+          "Number": "27",
+          "Minor": "27",
+          "Informations": "nu există"
+        },
+        {
+          "Number": "28",
+          "Minor": "28",
+          "Informations": "Str. Vasile Alecsandri <-> Sat Hulboaca"
+        },
+        {
+          "Number": "29",
+          "Minor": "29",
+          "Informations": "nu există"
+        },
+        {
+          "Number": "30",
+          "Minor": "30",
+          "Informations": "nu există"
+        },
+        {
+          "Number": "31",
+          "Minor": "31",
+          "Informations": "Str. Tighina <-> Oraş Vadul lui Vodă "
+        },
+        {
+          "Number": "32",
+          "Minor": "32",
+          "Informations": "nu există"
+        },
+        {
+          "Number": "33",
+          "Minor": "33",
+          "Informations": "Str. Ismail <-> Sat Dobrogea "
+        },
+        {
+          "Number": "34",
+          "Minor": "34",
+          "Informations": "nu există"
+        },
+        {
+          "Number": "35",
+          "Minor": "35",
+          "Informations": "nu există"
+        },
+        {
+          "Number": "36",
+          "Minor": "36",
+          "Informations": "nu există"
+        },
+        {
+          "Number": "37",
+          "Minor": "37",
+          "Informations": "Str. Vasile Alecsandri <-> Com. Stăuceni"
+        },
+        {
+          "Number": "38",
+          "Minor": "38",
+          "Informations": "Str. Tighina <-> Sat Cruzeşti "
+        },
+        {
+          "Number": "39",
+          "Minor": "39",
+          "Informations": "Str. Tighina <-> Sat Bâc "
+        },
+        {
+          "Number": "40",
+          "Minor": "40",
+          "Informations": "nu există"
+        },
+        {
+          "Number": "41",
+          "Minor": "41",
+          "Informations": "nu există"
+        },
+        {
+          "Number": "42",
+          "Minor": "42",
+          "Informations": "nu există"
+        },
+        {
+          "Number": "43",
+          "Minor": "43",
+          "Informations": "nu există"
+        },
+        {
+          "Number": "44",
+          "Minor": "44",
+          "Informations": "Str. Ismail <-> Sat Revaca "
+        },
+        {
+          "Number": "45",
+          "Minor": "45",
+          "Informations": "nu există"
+        },
+        {
+          "Number": "46",
+          "Minor": "46",
+          "Informations": "Str. Melestiu <-> Sat Ghidighici"
+        },
+        {
+          "Number": "47",
+          "Minor": "47",
+          "Informations": "Str. Vasile Alecsandri <-> Sat Ciorescu "
+        },
+        {
+          "Number": "48",
+          "Minor": "48",
+          "Informations": "Str. Vasile Alecsandri <-> Sat Făureşti "
+        },
+        {
+          "Number": "49",
+          "Minor": "49",
+          "Informations": "Str. Ismail <-> Com. Băcioi "
+        },
+        {
+          "Number": "50",
+          "Minor": "50",
+          "Informations": "nu există"
+        },
+        {
+          "Number": "65",
+          "Minor": "65",
+          "Informations": "Str. Ismail <-> şos. Munceşti"
         }
       ]
     }
