@@ -16,7 +16,7 @@ class NumberAdapter(private val context: Context, private val numbers: List<Stri
         private val underCategory: Button = itemView.findViewById(R.id.resultScannerDevicesButton)
         fun bind(number: String) {
             val numberInformation = dataServices.getInformationByNumber(context, numeCategorie, number)
-            underCategory.text =context.getString(R.string.DeviceWidgetName, numeCategorie, number, numberInformation) //.DeviceWidgetList, numeCategorie, number
+            underCategory.text =context.getString(R.string.DeviceWidgetList, number, numberInformation) //.DeviceWidgetList, numeCategorie, number
 
             underCategory.setOnClickListener {
                 onItemClick(number)

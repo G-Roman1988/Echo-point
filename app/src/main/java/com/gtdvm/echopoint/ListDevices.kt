@@ -11,7 +11,8 @@ import android.util.Log
                         import android.widget.Toast
                         import androidx.activity.OnBackPressedCallback
 import androidx.appcompat.app.AppCompatActivity
-import androidx.lifecycle.Observer
+                        import androidx.appcompat.widget.Toolbar
+                        import androidx.lifecycle.Observer
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
                         import com.gtdvm.echopoint.bluetoothService.IBeaconDeviceScanningService
@@ -33,6 +34,10 @@ class ListDevices : AppCompatActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_list_devices)
+        // set appBar
+        val listDevicesAppBar: Toolbar = findViewById(R.id.ListDevicesAppBar)
+        setSupportActionBar(listDevicesAppBar)
+        supportActionBar?.title = this.getString(R.string.ListDevicesAppBarTitle)
         //initialize recyclerView
         recyclerView = findViewById(R.id.resultScannerDevices)
         recyclerView.layoutManager = LinearLayoutManager (this)

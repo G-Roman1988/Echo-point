@@ -10,6 +10,7 @@ import android.widget.TextView
 import androidx.activity.enableEdgeToEdge
 import androidx.activity.OnBackPressedCallback
 import androidx.appcompat.app.AppCompatActivity
+import androidx.appcompat.widget.Toolbar
 import androidx.core.view.ViewCompat
 import androidx.core.view.WindowInsetsCompat
 import androidx.lifecycle.ViewModelProvider
@@ -37,6 +38,10 @@ class ScanAndCommunicationSelectedDevice : AppCompatActivity() {
             v.setPadding(systemBars.left, systemBars.top, systemBars.right, systemBars.bottom)
             insets
         }
+
+        val scaningCommunicationAppBar: Toolbar = findViewById(R.id.ScaningCommunicationAppBar)
+        setSupportActionBar(scaningCommunicationAppBar)
+        supportActionBar?.title = this.getString(R.string.ScaningCommunicationAppBarTitle)
 
         iBeaconDeviceScanningService = application as IBeaconDeviceScanningService
         bluetoothServices = BluetoothServices(this)
@@ -95,13 +100,13 @@ class ScanAndCommunicationSelectedDevice : AppCompatActivity() {
             startActivity(intent)
         } else {
             //permissions are accepted and start foreground service and scan
-            if (BeaconManager.getInstanceForApplication(this).monitoredRegions.size == 0) {
+            if (    BeaconManager.getInstanceForApplication(this).monitoredRegions.isEmpty()) {
                 (application as IBeaconDeviceScanningService).setupBeaconScanning()
                 val beaconManager = BeaconManager.getInstanceForApplication(this)
                 beaconManager.startMonitoring(iBeaconDeviceScanningService.myIBeaconsRegion)
                 beaconManager.startRangingBeacons(iBeaconDeviceScanningService.myIBeaconsRegion)
             }
-            if (BeaconManager.getInstanceForApplication(this).rangedRegions.size == 0) {
+            if (    BeaconManager.getInstanceForApplication(this).rangedRegions.isEmpty()) {
                 val beaconManager = BeaconManager.getInstanceForApplication(this)
                 beaconManager.startRangingBeacons(iBeaconDeviceScanningService.myIBeaconsRegion)
                 beaconManager.startMonitoring(iBeaconDeviceScanningService.myIBeaconsRegion)
@@ -120,7 +125,7 @@ class ScanAndCommunicationSelectedDevice : AppCompatActivity() {
 
     //the livedata object from the callback range
     private val rangingObserver = Observer<Collection<Beacon>> { beacons ->
-        if (BeaconManager.getInstanceForApplication(this).rangedRegions.size > 0) {
+        if (BeaconManager.getInstanceForApplication(this).rangedRegions.isNotEmpty()) {
             beacons.sortedBy { it.distance }
                 .map { beacon ->
                     if (SelectedDevice.isSelectedDevice(beacon.id2.toInt(), beacon.id3.toInt())){

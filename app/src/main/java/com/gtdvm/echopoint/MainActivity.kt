@@ -12,6 +12,7 @@ import android.widget.ArrayAdapter
 import android.view.ViewGroup
 import android.widget.Spinner
 import android.widget.Toast
+import androidx.appcompat.widget.Toolbar
 
 
 class MainActivity : AppCompatActivity(), ManagerDevices.BluetoothPermissionCallback {
@@ -64,6 +65,9 @@ class MainActivity : AppCompatActivity(), ManagerDevices.BluetoothPermissionCall
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)
+        val mainAppBar: Toolbar = findViewById(R.id.MainAppBar)
+        setSupportActionBar(mainAppBar)
+        supportActionBar?.title = this.getString(R.string.app_name)
         managerDevices = ManagerDevices(this)
         val dataServices = DataServices()
         val spinner:Spinner = findViewById(R.id.spinner)

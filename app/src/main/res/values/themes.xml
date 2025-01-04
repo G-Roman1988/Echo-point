@@ -5,6 +5,10 @@
         <item name="buttonStyle">@style/GlobalButtonStyle</item>
         <item name="android:windowBackground">@color/black</item>
         <item name="android:textViewStyle">@style/CustomTextViewStyle</item>
+
+<item name="appBarLayoutStyle">@style/CustomAppBarStyle</item>
+        <item name="toolbarStyle">@style/CustomToolbarStyle</item>
+
     </style>
 
     <style name="Theme.EchoPoint.NoActionBar">
@@ -12,6 +16,7 @@
         <item name="windowNoTitle">true</item>
         <item name="buttonStyle">@style/GlobalButtonStyle</item>
         <item name="android:windowBackground">@color/black</item>
+
     </style>
 
     <style name="Theme.EchoPoint.AppBarOverlay" parent="ThemeOverlay.AppCompat.Dark.ActionBar" />

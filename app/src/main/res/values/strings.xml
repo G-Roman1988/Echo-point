@@ -25,6 +25,9 @@
     <string name="Number_Name_Widget">%1$s</string>
     <string name="DeviceWidgetName">%1$s: %2$s %3$s</string>
     <string name="DeviceWidgetList">%1$s: %2$s</string>
+    <string name="CommunicationAppBarTitle">Communicare</string>
+    <string name="ListDevicesAppBarTitle">Lista dispozitivelor</string>
+    <string name="ScaningCommunicationAppBarTitle">         Scanare și communicare</string>
 
     <string name="large_text">
         "Material is the metaphor.\n\n"

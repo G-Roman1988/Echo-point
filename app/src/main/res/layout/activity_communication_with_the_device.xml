@@ -6,6 +6,17 @@
     android:layout_height="match_parent"
     tools:context=".CommunicationWithTheDevice">
 
+    <com.google.android.material.appbar.AppBarLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        app:layout_constraintTop_toTopOf="parent">
+        <com.google.android.material.appbar.MaterialToolbar
+            android:id="@+id/CommunicationDeviceAppBar"
+            android:layout_width="match_parent"
+            android:layout_height="?attr/actionBarSize"
+            app:popupTheme="@style/ThemeOverlay.AppCompat.Light"/>
+    </com.google.android.material.appbar.AppBarLayout>
+
     <TextView
         android:id="@+id/NotificationText"
         android:layout_width="302dp"
