@@ -12,13 +12,14 @@ import android.util.Log
 import android.view.Gravity
 import android.view.View
 import android.widget.Button
+import android.widget.CheckBox
 import android.widget.LinearLayout
 import android.widget.TextView
 import androidx.activity.result.contract.ActivityResultContracts
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.content.ContextCompat
 import androidx.core.view.setPadding
-
+import android.widget.Toast
 
 open class ManagerDevicesAndPermissions : AppCompatActivity() {
 
@@ -28,16 +29,15 @@ open class ManagerDevicesAndPermissions : AppCompatActivity() {
                 val permissionName = it.key
                 val isGranted = it.value
                 if (isGranted) {
+                    Toast.makeText(this, "$permissionName aceptată", Toast.LENGTH_SHORT).show()
                     Log.d(TAG, "$permissionName permission granted: $isGranted")
                     // Permission is granted. Continue the action or workflow in your
                     // app.
                 } else {
+                    Toast.makeText(this, "$permissionName refuzată", Toast.LENGTH_SHORT).show()
                     Log.d(TAG, "$permissionName permission granted: $isGranted")
                     // Explain to the user that the feature is unavailable because the
-                    // features requires a permission that the user has denied. At the
-                    // same time, respect the user's decision. Don't link to system
-                    // settings in an effort to convince the user to change their
-                    // decision.
+                    // features requires a permission that the user has denied.
                 }
             }
         }
@@ -113,7 +113,7 @@ open class BeaconScanPermissionsActivity: ManagerDevicesAndPermissions()  {
         layout = LinearLayout(this)
         layout.setPadding(dp(20))
         layout.gravity = Gravity.CENTER
-        layout.setBackgroundColor(Color.WHITE)
+        layout.setBackgroundColor(Color.BLACK)
         layout.orientation = LinearLayout.VERTICAL
         val backgroundAccessRequested = intent.getBooleanExtra("backgroundAccessRequested", true)
         val title = intent.getStringExtra("title") ?: "Permisiuni necesare"
@@ -147,13 +147,13 @@ open class BeaconScanPermissionsActivity: ManagerDevicesAndPermissions()  {
 
         var index = 0
         for (permissionGroup in permissionGroups) {
-            val button = Button(this)
-            val buttonTitle = permissionButtonTitles.getString(permissionGroup.first())
-            button.id = index
-            button.text = buttonTitle
-            button.layoutParams = params
-            button.setOnClickListener(buttonClickListener)
-            layout.addView(button)
+            val checkBox = CheckBox(this).apply {
+                id = index
+                text = permissionButtonTitles.getString(permissionGroup.first())
+                layoutParams = params
+                setOnClickListener(checkBoxClickListener)
+            }
+            layout.addView(checkBox)
             index += 1
         }
 
@@ -173,9 +173,14 @@ open class BeaconScanPermissionsActivity: ManagerDevicesAndPermissions()  {
         return (value * scale + 0.5f).toInt()
     }
 
-    private val buttonClickListener = View.OnClickListener { button ->
-        val permissionsGroup = permissionGroups.get(button.id)
-        promptForPermissions(permissionsGroup)
+    private val checkBoxClickListener = View.OnClickListener { view ->
+        val checkBox = view as CheckBox
+        val permissionsGroup = permissionGroups[checkBox.id]
+        if (allPermissionsGranted(permissionsGroup)){
+            checkBox.isChecked = true
+        } else{
+            promptForPermissions(permissionsGroup)
+        }
     }
 
     @SuppressLint("InlinedApi")
@@ -198,22 +203,25 @@ open class BeaconScanPermissionsActivity: ManagerDevicesAndPermissions()  {
         return true
     }
 
-    private fun setButtonColors() {
+    private fun setCheckBoxColors() {
         var index = 0
         for (permissionsGroup in this.permissionGroups) {
-            val button = findViewById<Button>(index)
+            val checkBox = findViewById<CheckBox>(index)
             if (allPermissionsGranted(permissionsGroup)) {
-                button.setBackgroundColor(Color.parseColor("#448844"))
+                checkBox.setBackgroundColor(Color.parseColor("#448844"))
+                checkBox.isChecked = true
             }
             else {
-                button.setBackgroundColor(Color.RED)
+                checkBox.setBackgroundColor(Color.RED)
+                checkBox.isChecked = false
             }
-            index += 1
+            index ++
         }
     }
+
     override fun onResume() {
         super.onResume()
-        setButtonColors()
+        setCheckBoxColors()
         if (allPermissionGroupsGranted()) {
             continueButton.isEnabled = true
         }

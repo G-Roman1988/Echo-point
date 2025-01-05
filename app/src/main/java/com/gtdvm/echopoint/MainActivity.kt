@@ -18,24 +18,6 @@ import androidx.appcompat.widget.Toolbar
 class MainActivity : AppCompatActivity(), ManagerDevices.BluetoothPermissionCallback {
     private lateinit var managerDevices: ManagerDevices
 
-    override fun onPermissionGranted() {
-        Toast.makeText(applicationContext, getString(R.string.permissionsGranted), Toast.LENGTH_SHORT).show()
-        managerDevices.requestEnableBluetooth(this)
-    }
-
-    override fun onPermissionDenied() {
-        if (!managerDevices.areBluetoothPermissionsGranted()) {
-            Toast.makeText(applicationContext, getString(R.string.permissionsNotGranted), Toast.LENGTH_SHORT).show()
-            managerDevices.requestBluetoothPermissions(this)
-        }
-        //Toast.makeText(applicationContext, getString(R.string.permissionsNotGranted), Toast.LENGTH_SHORT).show()
-        //managerDevices.requestBluetoothPermissions(this)
-        if (!managerDevices.arePermissionLocationGiven()) {
-            Toast.makeText(applicationContext, getString(R.string.Location_Permission_Not_Granted), Toast.LENGTH_SHORT).show()
-            managerDevices.requestLocationPermission(this)
-        }
-    }
-
     override fun onLocationEnabled() {
         Toast.makeText(applicationContext, getString(R.string.Location_sucessed_enabled), Toast.LENGTH_SHORT).show()
     }
@@ -55,11 +37,6 @@ class MainActivity : AppCompatActivity(), ManagerDevices.BluetoothPermissionCall
     override fun onBluetoothDisabled() {
         Toast.makeText(applicationContext, getString(R.string.dissabledBlue), Toast.LENGTH_SHORT).show()
         managerDevices.requestEnableBluetooth(this)
-    }
-
-    override fun onRequestPermissionsResult(requestCode: Int, permissions: Array<out String>, grantResults: IntArray) {
-        super.onRequestPermissionsResult(requestCode, permissions, grantResults)
-        managerDevices.onRequestPermissionsResult(requestCode, grantResults, this)
     }
 
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -110,24 +87,13 @@ class MainActivity : AppCompatActivity(), ManagerDevices.BluetoothPermissionCall
             intent.putExtra("backgroundAccessRequested", true)
             startActivity(intent)
         }
-        if (!managerDevices.areBluetoothPermissionsGranted()) {
-            Toast.makeText(applicationContext, getString(R.string.permissionsNotGranted), Toast.LENGTH_SHORT).show()
-            managerDevices.requestBluetoothPermissions(this)
-        }
         if (!managerDevices.isBluetoothEnabled()) {
             Toast.makeText(applicationContext, getString(R.string.dissabledBlue), Toast.LENGTH_SHORT).show()
             managerDevices.requestEnableBluetooth(this)
         }
-        //if (!managerDevices.arePermissionLocationGiven()) {
-//            Toast.makeText(applicationContext, getString(R.string.Location_Permission_Not_Granted), Toast.LENGTH_SHORT).show()
-//            managerDevices.requestLocationPermission(this)
-//        }
         if (managerDevices.isBluetoothEnabled() && !managerDevices.isLocationActive()) {
             Toast.makeText(applicationContext, getString(R.string.Location_Is_Disabled), Toast.LENGTH_SHORT).show()
             managerDevices.requestActivateLocation(this)
-        }
-        if (!managerDevices.notificationsAreAccepted()){
-            managerDevices.requestNotificationPermission()
         }
     }
 
