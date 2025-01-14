@@ -14,45 +14,49 @@
             android:id="@+id/CommunicationDeviceAppBar"
             android:layout_width="match_parent"
             android:layout_height="?attr/actionBarSize"
-            app:popupTheme="@style/ThemeOverlay.AppCompat.Light"/>
+            app:popupTheme="@style/ThemeOverlay.AppCompat.Light" />
+
     </com.google.android.material.appbar.AppBarLayout>
 
     <TextView
         android:id="@+id/NotificationText"
-        android:layout_width="302dp"
-        android:layout_height="450dp"
+        android:layout_width="355dp"
+        android:layout_height="435dp"
         android:layout_marginStart="50dp"
-        android:layout_marginTop="64dp"
+        android:layout_marginTop="?attr/actionBarSize"
         android:layout_marginEnd="59dp"
         android:layout_marginBottom="217dp"
         android:textSize="22sp"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.415"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent" />
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintVertical_bias="0.739" />
 
     <Button
         android:id="@+id/CallButton"
-        android:layout_width="164dp"
-        android:layout_height="92dp"
+        android:layout_width="147dp"
+        android:layout_height="52dp"
         android:layout_margin="16dp"
         android:layout_marginStart="124dp"
         android:layout_marginEnd="231dp"
-        android:layout_marginBottom="33dp"
+        android:layout_marginBottom="24dp"
         android:shadowColor="#5C369F"
         android:text="@string/startCall"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.604"
         app:layout_constraintStart_toStartOf="parent" />
 
     <Button
         android:id="@+id/StopCallButton"
-        android:layout_width="163dp"
-        android:layout_height="98dp"
+        android:layout_width="147dp"
+        android:layout_height="52dp"
         android:layout_margin="16dp"
-        android:layout_marginStart="108dp"
-        android:layout_marginEnd="232dp"
-        android:layout_marginBottom="112dp"
+        android:layout_marginStart="124dp"
+        android:layout_marginEnd="231dp"
+        android:layout_marginBottom="24dp"
         android:text="@string/stopCall"
         android:visibility="gone"
         app:layout_constraintBottom_toBottomOf="parent"

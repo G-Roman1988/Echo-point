@@ -20,11 +20,11 @@
 
     <androidx.recyclerview.widget.RecyclerView
         android:id="@+id/underCategoryList"
-        android:layout_width="match_parent"
-        android:layout_height="match_parent"
+        android:layout_width="399dp"
+        android:layout_height="663dp"
         android:layout_marginTop="?attr/actionBarSize"
-        android:padding="8dp"
         android:importantForAccessibility="yes"
+        android:padding="8dp"
         android:textSize="16sp" />
 
 </androidx.coordinatorlayout.widget.CoordinatorLayout>

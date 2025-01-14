@@ -86,14 +86,15 @@ class MainActivity : AppCompatActivity(), ManagerDevices.BluetoothPermissionCall
             val intent = Intent(this, BeaconScanPermissionsActivity::class.java)
             intent.putExtra("backgroundAccessRequested", true)
             startActivity(intent)
-        }
-        if (!managerDevices.isBluetoothEnabled()) {
-            Toast.makeText(applicationContext, getString(R.string.dissabledBlue), Toast.LENGTH_SHORT).show()
-            managerDevices.requestEnableBluetooth(this)
-        }
-        if (managerDevices.isBluetoothEnabled() && !managerDevices.isLocationActive()) {
-            Toast.makeText(applicationContext, getString(R.string.Location_Is_Disabled), Toast.LENGTH_SHORT).show()
-            managerDevices.requestActivateLocation(this)
+        } else{
+            if (!managerDevices.isBluetoothEnabled()) {
+                Toast.makeText(applicationContext, getString(R.string.dissabledBlue), Toast.LENGTH_SHORT).show()
+                managerDevices.requestEnableBluetooth(this)
+            }
+            if (managerDevices.isBluetoothEnabled() && !managerDevices.isLocationActive()) {
+                Toast.makeText(applicationContext, getString(R.string.Location_Is_Disabled), Toast.LENGTH_SHORT).show()
+                managerDevices.requestActivateLocation(this)
+            }
         }
     }
 

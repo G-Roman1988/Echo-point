@@ -2,19 +2,18 @@ package com.gtdvm.echopoint
 
 import android.app.Activity
 import android.bluetooth.BluetoothAdapter
-import android.bluetooth.BluetoothDevice
+//import android.bluetooth.BluetoothDevice
 import android.bluetooth.BluetoothManager
 import android.location.LocationManager
 import android.content.Intent
 import androidx.appcompat.app.AppCompatActivity
 import android.util.Log
 import androidx.activity.result.contract.ActivityResultContracts
-import androidx.core.app.ActivityCompat
-import androidx.core.content.ContextCompat
 import android.content.Context
-import android.location.LocationRequest
-import android.os.Build
-import android.provider.Settings
+import android.content.IntentSender
+import androidx.activity.result.IntentSenderRequest
+import com.google.android.gms.common.api.ResolvableApiException
+import com.google.android.gms.location.*
 
 
 class ManagerDevices(private val activity: AppCompatActivity) {
@@ -29,7 +28,7 @@ class ManagerDevices(private val activity: AppCompatActivity) {
     }
 
 
-    private val locationActivityResultLauncher = activity.registerForActivityResult(ActivityResultContracts.StartActivityForResult()) {result ->
+    private val locationActivityResultLauncher = activity.registerForActivityResult(ActivityResultContracts.StartIntentSenderForResult()) {result ->
         val resultCode = result.resultCode
         val callback = bluetoothPermissionCallback
         Log.d("LOCATIONACTIVITYRESULTLAUNCHER", "result is :$resultCode")
@@ -65,10 +64,31 @@ class ManagerDevices(private val activity: AppCompatActivity) {
         if (isLocationActive()) {
             callback.onLocationEnabled()
         } else {
-//val locationSettingsRequest = LocationRequest
-            val enableLocationIntent = Intent (Settings.ACTION_LOCATION_SOURCE_SETTINGS)
+            val locationRequest = LocationRequest.Builder(10000L)
+                .setPriority(Priority.PRIORITY_BALANCED_POWER_ACCURACY)
+                .setMinUpdateIntervalMillis(500L)
+                .build()
+            val builder = LocationSettingsRequest.Builder().addLocationRequest(locationRequest)
+            val settingsClient = LocationServices.getSettingsClient(activity)
+            val task = settingsClient.checkLocationSettings(builder.build())
+            task.addOnSuccessListener { //response ->
+                callback.onLocationEnabled()
+            }
+            task.addOnFailureListener{exception ->
+                if (exception is ResolvableApiException){
+                    try {
+                        val intentSenderRequest = IntentSenderRequest.Builder(exception.resolution).build()
+                        locationActivityResultLauncher.launch(intentSenderRequest)
+                        bluetoothPermissionCallback = callback
+                    } catch (sendEx: IntentSender.SendIntentException){
+                        sendEx.printStackTrace()
+                    }
+                }
+            }
+
+            /*val enableLocationIntent = Intent (Settings.ACTION_LOCATION_SOURCE_SETTINGS)
             bluetoothPermissionCallback =callback
-            locationActivityResultLauncher.launch (enableLocationIntent)
+            locationActivityResultLauncher.launch (enableLocationIntent)*/
         }
     }
 
