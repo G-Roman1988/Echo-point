@@ -17,6 +17,7 @@ import androidx.lifecycle.ViewModelProvider
 import androidx.lifecycle.Observer
 import com.gtdvm.echopoint.bluetoothService.IBeaconDeviceScanningService
 import com.gtdvm.echopoint.bluetoothService.BluetoothServices
+import com.gtdvm.echopoint.utils.Timer
 import org.altbeacon.beacon.Beacon
 import org.altbeacon.beacon.BeaconManager
 import org.altbeacon.beacon.MonitorNotifier
@@ -26,6 +27,7 @@ class ScanAndCommunicationSelectedDevice : AppCompatActivity() {
     private lateinit var bluetoothServices: BluetoothServices
     private lateinit var iBeaconDeviceScanningService: IBeaconDeviceScanningService
     private lateinit var notificationViewModel: NotificationViewModel
+    private lateinit var timer: Timer
     private var macAddresByCandedateDevice: String = ""
 
     @SuppressLint("CheckResult")
@@ -39,9 +41,15 @@ class ScanAndCommunicationSelectedDevice : AppCompatActivity() {
             insets
         }
 
+//setting appbar
         val scaningCommunicationAppBar: Toolbar = findViewById(R.id.ScaningCommunicationAppBar)
         setSupportActionBar(scaningCommunicationAppBar)
         supportActionBar?.title = this.getString(R.string.ScaningCommunicationAppBarTitle)
+
+//initialize the timer
+        timer = Timer{
+            onTimerExpired()
+        }
 
         iBeaconDeviceScanningService = application as IBeaconDeviceScanningService
         bluetoothServices = BluetoothServices(this)
@@ -53,6 +61,7 @@ class ScanAndCommunicationSelectedDevice : AppCompatActivity() {
             if (data == CommandsOptions.STOP_COLL){
             stopButton.visibility = View.GONE
             callButton.visibility = View.VISIBLE
+                timer.startTimer()
             } else{
                 messageTextView.text = data
             }
@@ -67,6 +76,7 @@ class ScanAndCommunicationSelectedDevice : AppCompatActivity() {
             callButton.visibility = View.GONE
             bluetoothServices.writeBleCharacteristic(CommandsOptions.START_COLL_VALUE)
             stopButton.visibility = View.VISIBLE
+            timer.stopTimer()
         }
 
         stopButton.setOnClickListener {
@@ -112,6 +122,11 @@ class ScanAndCommunicationSelectedDevice : AppCompatActivity() {
                 beaconManager.startMonitoring(iBeaconDeviceScanningService.myIBeaconsRegion)
             }
         }
+    }
+
+    private fun onTimerExpired(){
+        Log.d("CommunicationWithTheDevice", "Timer expirat - se deconectează dispozitivul BLE.")
+        bluetoothServices.disConnect()
     }
 
     // the livedata object of the monitor callback
