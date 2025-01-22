@@ -1,11 +1,9 @@
 package com.gtdvm.echopoint
 
 import android.content.Context
-//import org.json.JSONArray
 import  org.json.JSONException
 import org.json.JSONObject
 import  java.io.IOException
-import  java.nio.charset.Charset
 
 
 class DataServices {
@@ -34,7 +32,7 @@ class DataServices {
         val buffer = ByteArray(size)
         inputStream.read(buffer)
         inputStream.close()
-        return buffer.toString(Charset.defaultCharset())
+        return buffer.toString(Charsets.UTF_8)
     }
 
     fun getNumbersForCategory (context: Context, categoryName: String): List<String>{
@@ -49,12 +47,7 @@ class DataServices {
                     val numbersArray = categoryObject.getJSONArray("Numbers")
                     for (j in 0 until numbersArray.length()) {
                         val numberObject = numbersArray.getJSONObject(j)
-                        var number = numberObject.getString("Number")
-                        number += if (numberObject.getString("Informations") != "null"){
-                            " ${numberObject.getString("Informations")}"
-                        } else {
-                            " "
-                        }
+                        val number = numberObject.getString("Number")
                         numbers.add(number)
                     }
                     break
@@ -69,19 +62,19 @@ class DataServices {
     }
 
     fun getNameByMajor (context: Context, major: String): String {
-var name = ""
+        var name = ""
         try {
-val categoryObject = JSONObject (loadJsonDataFromRaw(context, R.raw.data))
-    val categoriesArray = categoryObject.getJSONArray("Categories")
+            val categoryObject = JSONObject (loadJsonDataFromRaw(context, R.raw.data))
+            val categoriesArray = categoryObject.getJSONArray("Categories")
             for (i in 0 until categoriesArray.length()){
-val currentObject = categoriesArray.getJSONObject(i)
+                val currentObject = categoriesArray.getJSONObject(i)
                 if (currentObject.getString("Major") == major){
-                  name = currentObject.getString("Name")
+                    name = currentObject.getString("Name")
                     break
                 }
             }
         } catch (e: JSONException) {
-e.printStackTrace()
+            e.printStackTrace()
         } catch (e: IOException){
             e.printStackTrace()
         }
@@ -96,21 +89,21 @@ e.printStackTrace()
             for (i in 0 until categoriesArray.length()) {
                 val currentObject = categoriesArray.getJSONObject(i)
                 if (currentObject.getString("Major") == major){
-val numberObjectArray = currentObject.getJSONArray("Numbers")
-             for (j in 0 until numberObjectArray.length()){
-                 val currentNumberObject = numberObjectArray.getJSONObject(j)
-                 if (currentNumberObject.getString("Minor") == minor){
-                numberName = currentNumberObject.getString("Number")
-                     break
-                 }
-             }
+                    val numberObjectArray = currentObject.getJSONArray("Numbers")
+                    for (j in 0 until numberObjectArray.length()){
+                        val currentNumberObject = numberObjectArray.getJSONObject(j)
+                        if (currentNumberObject.getString("Minor") == minor){
+                            numberName = currentNumberObject.getString("Number")
+                            break
+                        }
+                    }
                     break
                 }
             }
         } catch (e: JSONException){
             e.printStackTrace()
         } catch (e: IOException){
-          e.printStackTrace()
+            e.printStackTrace()
         }
         return numberName
     }
@@ -186,8 +179,35 @@ val numberObjectArray = currentObject.getJSONArray("Numbers")
         } catch (e: IOException){
             e.printStackTrace()
         }
-        return numberInformation
+        return numberInformation.takeIf { it != "null" } ?: ""
     }
+
+    /*fun getInformationForNumberByName (context: Context, categoryIdentifier: String, numberIdentifier: String): String {
+        var numberInformation =""
+        try {
+            val currentJson = JSONObject (loadJsonDataFromRaw(context, R.raw.data))
+            val categoriesArray = currentJson.getJSONArray("Categories")
+            for (i in 0 until categoriesArray.length()) {
+                val currentObject = categoriesArray.getJSONObject(i)
+                if (currentObject.getString("Major") == categoryIdentifier || currentObject.getString("Name") == categoryIdentifier){
+                    val numberObjectArray = currentObject.getJSONArray("Numbers")
+                    for (j in 0 until numberObjectArray.length()){
+                        val currentNumberObject = numberObjectArray.getJSONObject(j)
+                        if (currentNumberObject.getString("Minor") == numberIdentifier || currentNumberObject.getString("Number") == numberIdentifier){
+                            numberInformation = currentNumberObject.getString("Informations")
+                            break
+                        }
+                    }
+                    break
+                }
+            }
+        } catch (e: JSONException){
+            e.printStackTrace()
+        } catch (e: IOException){
+            e.printStackTrace()
+        }
+        return numberInformation
+    }*/
 
 
 

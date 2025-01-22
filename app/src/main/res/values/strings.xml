@@ -1,9 +1,9 @@
 <resources>
-    <string name="app_name">Echo point</string>
+    <string name="app_name">GuideBeep</string>
     <string name="mainMessage">Selectați o categorie pe butonul din stînga sus</string>
     <string name="dropdownName">Categoria</string>
     <string name="preferences">Favorite</string>
-    <string name="startBle">Se scanează ce este în jur</string>
+    <string name="startBle">În apropierea DVS nu este nimic,se scanează</string>
     <string name="Message_After_Connecting">Punctul de orentare este în apropiere pentru să vă orentați mai bine accesînd buton chemare </string>
     <string name="selectcategory">Categoria selectată: </string>
     <string name="title_activity_under_category">Sub Categorie</string>
@@ -25,6 +25,9 @@
     <string name="Number_Name_Widget">%1$s</string>
     <string name="DeviceWidgetName">%1$s: %2$s %3$s</string>
     <string name="DeviceWidgetList">%1$s: %2$s</string>
+    <string name="CommunicationAppBarTitle">Communicare</string>
+    <string name="ListDevicesAppBarTitle">Lista dispozitivelor</string>
+    <string name="ScaningCommunicationAppBarTitle">         Scanare și communicare</string>
 
     <string name="large_text">
         "Material is the metaphor.\n\n"

@@ -6,24 +6,21 @@
     <uses-permission android:name="android.permission.BLUETOOTH_ADMIN" />
     <uses-permission android:name="android.permission.BLUETOOTH_CONNECT" />
     <uses-permission android:name="android.permission.BLUETOOTH_SCAN" />
-    <!--         android:usesPermissionFlags="neverForLocation" tools:targetApi="s" -->
+    <!-- android:usesPermissionFlags="neverForLocation" tools:targetApi="s" -->
     <uses-permission android:name="android.permission.BLUETOOTH_ADVERTISE" />
-
     <uses-feature android:name="android.hardware.bluetooth" android:required="true" />
     <uses-feature android:name="android.hardware.bluetooth_le" android:required="true" />
-
     <uses-permission android:name="android.permission.ACCESS_FINE_LOCATION" />
     <uses-permission android:name="android.permission.ACCESS_COARSE_LOCATION" />
     <uses-permission android:name="android.permission.ACCESS_BACKGROUND_LOCATION" />
     <uses-permission android:name="android.permission.INTERNET" />
     <uses-permission android:name="android.permission.FOREGROUND_SERVICE" />
-    <uses-permission android:name="android.permission.FOREGROUND_SERVICE_LOCATION" />
-        <uses-permission android:name="android.permission.POST_NOTIFICATIONS" />
+    <!--<uses-permission android:name="android.permission.FOREGROUND_SERVICE_LOCATION" />-->
+    <uses-permission android:name="android.permission.POST_NOTIFICATIONS" />
 
     <application
+        android:name="com.gtdvm.echopoint.bluetoothService.IBeaconDeviceScanningService"
         android:allowBackup="true"
-        android:debuggable="true"
-        android:dataExtractionRules="@xml/data_extraction_rules"
         android:enableOnBackInvokedCallback="true"
         android:fullBackupContent="@xml/backup_rules"
         android:icon="@mipmap/ic_launcher"
@@ -31,9 +28,15 @@
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
         android:theme="@style/Theme.EchoPoint"
-        tools:targetApi="tiramisu"
-        tools:ignore="HardcodedDebugMode">
-
+        tools:targetApi="tiramisu">
+<!--
+        android:dataExtractionRules="@xml/data_extraction_rules"
+android:debuggable="true"
+        tools:ignore="HardcodedDebugMode"
+        -->
+        <activity
+            android:name=".ManagerDevicesAndPermissions"
+            android:exported="false" />
         <activity
             android:name=".ScanAndCommunicationSelectedDevice"
             android:exported="false" />
@@ -54,18 +57,10 @@
             android:theme="@style/Theme.EchoPoint" >
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
-
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
-
-        <service
-            android:name="org.altbeacon.beacon.service.ScanJob"
-            android:permission="android.permission.BIND_JOB_SERVICE" />
-
-        <meta-data
-            android:name="android.app.job.JobScheduler.SCHEDULE_IMMEDIATE"
-            android:value="true" />
+        <activity android:name="com.gtdvm.echopoint.BeaconScanPermissionsActivity" android:exported="false" />
 
     </application>
 

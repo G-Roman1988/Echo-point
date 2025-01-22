@@ -9,6 +9,9 @@
     <Button
         android:id="@+id/resultScannerDevicesButton"
         android:layout_width="wrap_content"
-        android:layout_height="wrap_content" />
+        android:layout_height="wrap_content"
+        android:layout_gravity="top|start"
+        android:padding="10dp"
+        android:ellipsize="none" />
 
 </FrameLayout>

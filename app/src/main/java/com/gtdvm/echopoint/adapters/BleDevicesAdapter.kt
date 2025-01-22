@@ -1,4 +1,4 @@
-package com.gtdvm.echopoint
+package com.gtdvm.echopoint.adapters
 
 import android.content.Context
 import android.view.LayoutInflater
@@ -6,6 +6,11 @@ import android.view.View
 import android.view.ViewGroup
 import androidx.recyclerview.widget.RecyclerView
 import android.widget.Button
+import androidx.recyclerview.widget.DiffUtil
+import com.gtdvm.echopoint.DataServices
+import com.gtdvm.echopoint.IBeacon
+import com.gtdvm.echopoint.R
+
 
 class BleDevicesAdapter (private val context: Context, private val devices: MutableList<IBeacon> = mutableListOf(), private val onItemClick: (IBeacon) ->Unit) : RecyclerView.Adapter<BleDevicesAdapter.ViewHolder>() {
     private  val dataServices = DataServices()
@@ -36,16 +41,29 @@ class BleDevicesAdapter (private val context: Context, private val devices: Muta
 
     override fun getItemCount() = devices.size
     fun updateDevices (newDevices: List<IBeacon>){
-        val previousSize = devices.size
+        val diffCallback = object : DiffUtil.Callback() {
+            override fun getOldListSize() = devices.size
+            override fun getNewListSize() = newDevices.size
+            override fun areItemsTheSame(oldItemPosition: Int, newItemPosition: Int): Boolean {
+                return devices[oldItemPosition].macAddress == newDevices[newItemPosition].macAddress
+            }
+            override fun areContentsTheSame(oldItemPosition: Int, newItemPosition: Int): Boolean {
+                return devices[oldItemPosition] == newDevices[newItemPosition]
+            }
+        }
+
+        val diffResult = DiffUtil.calculateDiff(diffCallback)
+        //val previousSize = devices.size
         devices.clear()
         devices.addAll(newDevices)
-        if (previousSize <devices.size) {
+        diffResult.dispatchUpdatesTo(this)
+        /*if (previousSize <devices.size) {
             notifyItemRangeInserted(previousSize, devices.size - previousSize)
         } else if (previousSize > devices.size) {
             notifyItemRangeRemoved(devices.size, previousSize - devices.size)
         } else {
 //            notifyDataSetChanged()
-        }
+        }*/
     }
 
 }

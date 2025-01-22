@@ -47,9 +47,12 @@ else{
         dataServices = DataServices()
         val underItems = dataServices.getMinorByUnderCategoryName(context, tempCategoryValue, items)
        return (selectedCategory > defaultCategory && underItems == selectedUnderCategory && selectedUnderCategory == defaultUnderCategory)
-
     }
 
+    fun resetSelection(){
+        selectedCategory = defaultCategory
+        selectedUnderCategory = defaultUnderCategory
+    }
 
 
 }

@@ -7,11 +7,14 @@ import android.os.Bundle
 import android.view.View
 import android.widget.Button
 import android.widget.TextView
+import androidx.appcompat.widget.Toolbar
 //import io.reactivex.rxjava3.disposables.Disposable
 //import io.reactivex.rxjava3.schedulers.Schedulers
 //import android.util.Log
 //import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProvider
+import com.gtdvm.echopoint.bluetoothService.BluetoothServices
+
 //import androidx.lifecycle.get
 
 
@@ -22,28 +25,38 @@ class CommunicationWithTheDevice : AppCompatActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_communication_with_the_device)
+
+        val communicationAppBar: Toolbar = findViewById(R.id.CommunicationDeviceAppBar)
+        setSupportActionBar(communicationAppBar)
+        supportActionBar?.title = this.getString(R.string.CommunicationAppBarTitle)
+
  val connectingToDeviceFormMacAddres = intent.getStringExtra("connectingTo")
         val notificationMessages: TextView = findViewById(R.id.NotificationText)
-bluetoothServices = BluetoothServices(this)
+        val callSoundButton: Button = findViewById(R.id.CallButton)
+        val stopCallButton: Button = findViewById(R.id.StopCallButton)
+        bluetoothServices = BluetoothServices(this)
         notificationViewModel = ViewModelProvider(this)[NotificationViewModel::class.java]
         notificationViewModel.notificationData.observe(this) {data ->
-        notificationMessages.text = data
+            if (data == CommandsOptions.STOP_COLL){
+                stopCallButton.visibility = View.GONE
+                callSoundButton.visibility = View.VISIBLE
+            } else {
+                notificationMessages.text = data
+            }
         }
-val callSoundButton: Button = findViewById(R.id.CallButton)
-        val stopCallButton: Button = findViewById(R.id.StopCallButton)
         //notificationMessages.text = connectingToDeviceFormMacAddres //"se așteaptă notificările"
-bluetoothServices.connectToDevice(connectingToDeviceFormMacAddres.toString())
+        bluetoothServices.connectToDevice(connectingToDeviceFormMacAddres!!)
 
         callSoundButton.setOnClickListener {
             callSoundButton.visibility = View.GONE
             stopCallButton.visibility = View.VISIBLE
-            bluetoothServices.writeBleCharacteristic(bluetoothServices.currentBleConnection!!, CommandsOptions.START_COLL_VALUE)
+            bluetoothServices.writeBleCharacteristic(CommandsOptions.START_COLL_VALUE)
         }
 
         stopCallButton.setOnClickListener {
             stopCallButton.visibility = View.GONE
             callSoundButton.visibility = View.VISIBLE
-bluetoothServices.writeBleCharacteristic(bluetoothServices.currentBleConnection!!, CommandsOptions.STOP_COLL_VALUE)
+bluetoothServices.writeBleCharacteristic(CommandsOptions.STOP_COLL_VALUE)
         }
 
         onBackPressedDispatcher.addCallback(this, object : OnBackPressedCallback(true) {
