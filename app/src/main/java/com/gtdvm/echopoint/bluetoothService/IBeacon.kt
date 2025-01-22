@@ -1,4 +1,4 @@
-package com.gtdvm.echopoint
+package com.gtdvm.echopoint.bluetoothService
 
 class IBeacon (mac: String?) {
     val macAddress =mac

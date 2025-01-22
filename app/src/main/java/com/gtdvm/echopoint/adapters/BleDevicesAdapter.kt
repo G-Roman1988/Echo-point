@@ -8,19 +8,21 @@ import androidx.recyclerview.widget.RecyclerView
 import android.widget.Button
 import androidx.recyclerview.widget.DiffUtil
 import com.gtdvm.echopoint.DataServices
-import com.gtdvm.echopoint.IBeacon
+import com.gtdvm.echopoint.bluetoothService.IBeacon
 import com.gtdvm.echopoint.R
+import com.gtdvm.echopoint.utils.TextToSpeechHelper
 
 
 class BleDevicesAdapter (private val context: Context, private val devices: MutableList<IBeacon> = mutableListOf(), private val onItemClick: (IBeacon) ->Unit) : RecyclerView.Adapter<BleDevicesAdapter.ViewHolder>() {
-    private  val dataServices = DataServices()
+    private val dataServices = DataServices()
+    private val tts =TextToSpeechHelper(context)
     inner class ViewHolder (itemView: View) : RecyclerView.ViewHolder (itemView) {
         private val resultScannerDevices: Button = itemView.findViewById(R.id.resultScannerDevicesButton)
-        //private val resultScannerDevices: View = itemView.findViewById(R.id.resultScannerDevices)
         fun bind(resultBleDevice: IBeacon) {
             val categoryTextWidgets = dataServices.getNameByMajor(context, resultBleDevice.major.toString())
             val numberTextWidgets = dataServices.getNumberByMinor(context, resultBleDevice.major.toString(), resultBleDevice.minor.toString())
             val informationWidgets = dataServices.getInformationByNumber(context, resultBleDevice.major.toString(), resultBleDevice.minor.toString())
+tts.toSpeak(context.getString(R.string.Message_to_tts, categoryTextWidgets, numberTextWidgets))
             resultScannerDevices.text = context.getString(R.string.DeviceWidgetName, categoryTextWidgets, numberTextWidgets, informationWidgets)
 
             resultScannerDevices.setOnClickListener{

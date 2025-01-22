@@ -17,6 +17,8 @@ import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
                         import com.gtdvm.echopoint.bluetoothService.IBeaconDeviceScanningService
                         import com.gtdvm.echopoint.adapters.BleDevicesAdapter
+                        import com.gtdvm.echopoint.bluetoothService.IBeacon
+                        import com.gtdvm.echopoint.utils.TextToSpeechHelper
                         import org.altbeacon.beacon.Beacon
 import org.altbeacon.beacon.BeaconManager
 import org.altbeacon.beacon.MonitorNotifier
@@ -28,7 +30,7 @@ class ListDevices : AppCompatActivity() {
     private lateinit var recyclerView: RecyclerView
     private lateinit var bleDevicesAdapter: BleDevicesAdapter
     private lateinit var messageDialogText: TextView
-
+private lateinit var textToSpeechHelper: TextToSpeechHelper
 
     @SuppressLint("CheckResult")
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -46,6 +48,9 @@ class ListDevices : AppCompatActivity() {
             onDeviceClick(device)
         }
         recyclerView.adapter = bleDevicesAdapter
+
+        //initialize the speech synthesizer
+        textToSpeechHelper = TextToSpeechHelper(this)
         iBeaconDeviceScanningService = application as IBeaconDeviceScanningService
         //I set up a Live Data observer for the signaling data
         val regionViewModel = BeaconManager.getInstanceForApplication(this).getRegionViewModel(iBeaconDeviceScanningService.myIBeaconsRegion)
@@ -54,6 +59,7 @@ class ListDevices : AppCompatActivity() {
 
          messageDialogText = findViewById(R.id.MessageTextDialog)
         messageDialogText.text = this.getString(R.string.startBle)
+        textToSpeechHelper.toSpeak(this.getString(R.string.startBle))
         val stopScaning: Button = findViewById(R.id.stopScaning)
         stopScaning.setOnClickListener {
             //val beaconManager = BeaconManager.getInstanceForApplication(this)
@@ -133,7 +139,8 @@ class ListDevices : AppCompatActivity() {
                         devicesFound.add(iBeacon)
                         messageDialogText.visibility = View.GONE
                     } else {
-Toast.makeText(applicationContext, "selecția DVS nu este în apropiere", Toast.LENGTH_SHORT).show()
+                        messageDialogText.visibility = View.VISIBLE
+messageDialogText.text = this.getString(R.string.message_selected_device_is_not_nearby)
                     }
                 }
         }

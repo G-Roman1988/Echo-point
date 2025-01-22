@@ -82,7 +82,7 @@ class BluetoothServices (private val activity: AppCompatActivity) {
                 }
             } else if (newState == BluetoothGatt.STATE_DISCONNECTED){
                 Log.d(TAG, "connection ended")
-                notificationViewNodel.showNotificationData("connecsiunea încheiată")
+                notificationViewNodel.showNotificationData(activity.getString(R.string.Message_after_Deconnection))
                 bluetoothGatt?.close()
                 bluetoothGatt = null
             }

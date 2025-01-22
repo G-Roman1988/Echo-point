@@ -11,6 +11,7 @@ import androidx.appcompat.widget.Toolbar
 import android.util.Log
 import androidx.lifecycle.ViewModelProvider
 import com.gtdvm.echopoint.bluetoothService.BluetoothServices
+import com.gtdvm.echopoint.bluetoothService.CommandsOptions
 import com.gtdvm.echopoint.utils.Timer
 
 
@@ -67,17 +68,20 @@ bluetoothServices.writeBleCharacteristic(CommandsOptions.STOP_COLL_VALUE)
 
         onBackPressedDispatcher.addCallback(this, object : OnBackPressedCallback(true) {
             override fun handleOnBackPressed() {
-                bluetoothServices.disConnect()
-                startActivity(Intent(this@CommunicationWithTheDevice, MainActivity::class.java))
-                finishAffinity()
-
+finishActivity()
             }
         })
     }
 
+    private fun finishActivity(){
+        bluetoothServices.disConnect()
+        startActivity(Intent(this@CommunicationWithTheDevice, MainActivity::class.java))
+        finishAffinity()
+    }
+
     private fun onTimerExpired(){
         Log.d("CommunicationWithTheDevice", "Timer expirat - se deconectează dispozitivul BLE.")
-        bluetoothServices.disConnect()
+        finishActivity()
     }
 
 

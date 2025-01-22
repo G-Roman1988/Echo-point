@@ -1,4 +1,4 @@
-package com.gtdvm.echopoint
+package com.gtdvm.echopoint.bluetoothService
 
 object CommandsOptions {
     val START_COLL_VALUE: ByteArray = byteArrayOf(0X31)
