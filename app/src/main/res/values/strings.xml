@@ -5,6 +5,7 @@
     <string name="preferences">Favorite</string>
     <string name="startBle">În apropierea DVS nu este nimic,se scanează</string>
     <string name="Message_After_Connecting">Punctul de orentare este în apropiere pentru să vă orentați mai bine accesînd buton chemare </string>
+    <string name="Message_after_Deconnection">Connecsiunea încheiată </string>
     <string name="selectcategory">Categoria selectată: </string>
     <string name="title_activity_under_category">Sub Categorie</string>
     <string name="enabledBle">Bluetooth este activat cu suces</string>
@@ -21,6 +22,8 @@
     <string name="stopScan">Oprire scanare</string>
     <string name="startCall">Chemare</string>
     <string name="stopCall">Stop chemare</string>
+    <string name="Message_to_tts">Se apropie %1$s %2$s</string>
+    <string name="message_selected_device_is_not_nearby">Selecția DVS nu este în apropiere</string>
     <string name="Category_Name_Widget">%1$s</string>
     <string name="Number_Name_Widget">%1$s</string>
     <string name="DeviceWidgetName">%1$s: %2$s %3$s</string>

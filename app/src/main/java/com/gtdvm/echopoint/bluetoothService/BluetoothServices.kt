@@ -13,6 +13,7 @@ import androidx.appcompat.app.AppCompatActivity
 import androidx.lifecycle.ViewModelProvider
 //import org.altbeacon.beacon.permissions.BeaconScanPermissionsActivity
 import com.gtdvm.echopoint.NotificationViewModel
+import com.gtdvm.echopoint.R
 
 
 class BluetoothServices (private val activity: AppCompatActivity) {
@@ -67,21 +68,23 @@ class BluetoothServices (private val activity: AppCompatActivity) {
         }
     }
 
+    //callback from the connection (callback)
     private val gattCallback = object : BluetoothGattCallback(){
         override fun onConnectionStateChange(gatt: BluetoothGatt?, status: Int, newState: Int) {
             super.onConnectionStateChange(gatt, status, newState)
             Log.d(TAG, "onConnectionStateChange: status=$status newState=$newState")
             if (newState == BluetoothGatt.STATE_CONNECTED){
                 Log.d(TAG, "connection successful")
-                notificationViewNodel.showNotificationData("connectat cu succes")
+                notificationViewNodel.showNotificationData(activity.getString(R.string.Message_After_Connecting))
                 if (activity.checkSelfPermission(android.Manifest.permission.BLUETOOTH_CONNECT) == PackageManager.PERMISSION_GRANTED || (activity.checkSelfPermission(android.Manifest.permission.BLUETOOTH_ADMIN) == PackageManager.PERMISSION_GRANTED && activity.checkSelfPermission(android.Manifest.permission.BLUETOOTH) == PackageManager.PERMISSION_GRANTED)){
                     Log.d(TAG, "I discover the service")
                     gatt?.discoverServices()
                 }
             } else if (newState == BluetoothGatt.STATE_DISCONNECTED){
                 Log.d(TAG, "connection ended")
-                notificationViewNodel.showNotificationData("connecsiunea încheiată")
+                notificationViewNodel.showNotificationData(activity.getString(R.string.Message_after_Deconnection))
                 bluetoothGatt?.close()
+                bluetoothGatt = null
             }
         }
 
@@ -154,8 +157,8 @@ class BluetoothServices (private val activity: AppCompatActivity) {
             bluetoothGatt?.let {
                 Log.d(TAG, "disconnecting this device")
                 it.disconnect()
-                it.close()
-                bluetoothGatt = null
+//                it.close()
+//                bluetoothGatt = null
             }
         }
     }

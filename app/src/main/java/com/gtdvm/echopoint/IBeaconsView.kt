@@ -3,6 +3,7 @@ package com.gtdvm.echopoint
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
+import com.gtdvm.echopoint.bluetoothService.IBeacon
 
 
 class IBeaconsView : ViewModel() {

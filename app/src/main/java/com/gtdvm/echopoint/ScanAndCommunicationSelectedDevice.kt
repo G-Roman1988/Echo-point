@@ -17,6 +17,8 @@ import androidx.lifecycle.ViewModelProvider
 import androidx.lifecycle.Observer
 import com.gtdvm.echopoint.bluetoothService.IBeaconDeviceScanningService
 import com.gtdvm.echopoint.bluetoothService.BluetoothServices
+import com.gtdvm.echopoint.bluetoothService.CommandsOptions
+import com.gtdvm.echopoint.utils.Timer
 import org.altbeacon.beacon.Beacon
 import org.altbeacon.beacon.BeaconManager
 import org.altbeacon.beacon.MonitorNotifier
@@ -26,7 +28,9 @@ class ScanAndCommunicationSelectedDevice : AppCompatActivity() {
     private lateinit var bluetoothServices: BluetoothServices
     private lateinit var iBeaconDeviceScanningService: IBeaconDeviceScanningService
     private lateinit var notificationViewModel: NotificationViewModel
+    private lateinit var timer: Timer
     private var macAddresByCandedateDevice: String = ""
+    private lateinit var callButton: Button
 
     @SuppressLint("CheckResult")
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -39,24 +43,36 @@ class ScanAndCommunicationSelectedDevice : AppCompatActivity() {
             insets
         }
 
+//setting appbar
         val scaningCommunicationAppBar: Toolbar = findViewById(R.id.ScaningCommunicationAppBar)
         setSupportActionBar(scaningCommunicationAppBar)
         supportActionBar?.title = this.getString(R.string.ScaningCommunicationAppBarTitle)
 
+//initialize the timer
+        timer = Timer{
+            onTimerExpired()
+        }
+
+        //create ibeacon scan class object for scanning ble devices and bluetoothServices for connecting
         iBeaconDeviceScanningService = application as IBeaconDeviceScanningService
         bluetoothServices = BluetoothServices(this)
         val messageTextView: TextView = findViewById(R.id.MessageText)
-        val callButton: Button = findViewById(R.id.callButton)
+         callButton = findViewById(R.id.callButton)
+        callButton.visibility = View.GONE
         val stopButton: Button = findViewById(R.id.stopCallButton)
+        // get livedata object to display data from device ble
         notificationViewModel = ViewModelProvider(this)[NotificationViewModel::class.java]
         notificationViewModel.notificationData.observe(this) {data ->
+//check if the ble device sent that it is no longer beeping
             if (data == CommandsOptions.STOP_COLL){
             stopButton.visibility = View.GONE
             callButton.visibility = View.VISIBLE
+                timer.startTimer()
             } else{
                 messageTextView.text = data
             }
         }
+//initialize the textview with the message when the scan started
         messageTextView.text = getString(R.string.startBle)
         //create the region and retrieve the monitoring, range of live data objects
         val regionViewModel = BeaconManager.getInstanceForApplication(this).getRegionViewModel(iBeaconDeviceScanningService.myIBeaconsRegion)
@@ -67,6 +83,7 @@ class ScanAndCommunicationSelectedDevice : AppCompatActivity() {
             callButton.visibility = View.GONE
             bluetoothServices.writeBleCharacteristic(CommandsOptions.START_COLL_VALUE)
             stopButton.visibility = View.VISIBLE
+            timer.stopTimer()
         }
 
         stopButton.setOnClickListener {
@@ -114,6 +131,12 @@ class ScanAndCommunicationSelectedDevice : AppCompatActivity() {
         }
     }
 
+    private fun onTimerExpired(){
+        Log.d("CommunicationWithTheDevice", "Timer expirat - se deconectează dispozitivul BLE.")
+        bluetoothServices.disConnect()
+        finish()
+    }
+
     // the livedata object of the monitor callback
     private val monitoringObserver = Observer<Int> { state ->
         if (state == MonitorNotifier.OUTSIDE){
@@ -131,10 +154,8 @@ class ScanAndCommunicationSelectedDevice : AppCompatActivity() {
                     if (SelectedDevice.isSelectedDevice(beacon.id2.toInt(), beacon.id3.toInt())){
                         macAddresByCandedateDevice = beacon.bluetoothAddress
                         iBeaconDeviceScanningService.stopScaningForeGroundServices()
-                        //val beaconManager = BeaconManager.getInstanceForApplication(this)
-                        //beaconManager.stopRangingBeacons(iBeaconDeviceScanningService.myIBeaconsRegion)
-                        //beaconManager.stopMonitoring(iBeaconDeviceScanningService.myIBeaconsRegion)
                         bluetoothServices.connectToDevice(macAddresByCandedateDevice)
+callButton.visibility = View.VISIBLE
                     }
                 }
         }

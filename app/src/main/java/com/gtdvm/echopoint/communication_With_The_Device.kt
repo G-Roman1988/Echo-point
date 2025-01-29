@@ -8,27 +8,31 @@ import android.view.View
 import android.widget.Button
 import android.widget.TextView
 import androidx.appcompat.widget.Toolbar
-//import io.reactivex.rxjava3.disposables.Disposable
-//import io.reactivex.rxjava3.schedulers.Schedulers
-//import android.util.Log
-//import androidx.lifecycle.Observer
+import android.util.Log
 import androidx.lifecycle.ViewModelProvider
 import com.gtdvm.echopoint.bluetoothService.BluetoothServices
-
-//import androidx.lifecycle.get
+import com.gtdvm.echopoint.bluetoothService.CommandsOptions
+import com.gtdvm.echopoint.utils.Timer
 
 
 class CommunicationWithTheDevice : AppCompatActivity() {
     private lateinit var bluetoothServices: BluetoothServices
     private lateinit var notificationViewModel: NotificationViewModel
-    //private var notificationDisposable: Disposable? = null
+    private lateinit var timer: Timer
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_communication_with_the_device)
 
+        //setting appBar
         val communicationAppBar: Toolbar = findViewById(R.id.CommunicationDeviceAppBar)
         setSupportActionBar(communicationAppBar)
         supportActionBar?.title = this.getString(R.string.CommunicationAppBarTitle)
+
+//initialize the timer
+        timer = Timer{
+            onTimerExpired()
+        }
 
  val connectingToDeviceFormMacAddres = intent.getStringExtra("connectingTo")
         val notificationMessages: TextView = findViewById(R.id.NotificationText)
@@ -40,8 +44,10 @@ class CommunicationWithTheDevice : AppCompatActivity() {
             if (data == CommandsOptions.STOP_COLL){
                 stopCallButton.visibility = View.GONE
                 callSoundButton.visibility = View.VISIBLE
+                timer.startTimer()
             } else {
                 notificationMessages.text = data
+                //timer.stopTimer()
             }
         }
         //notificationMessages.text = connectingToDeviceFormMacAddres //"se așteaptă notificările"
@@ -51,6 +57,7 @@ class CommunicationWithTheDevice : AppCompatActivity() {
             callSoundButton.visibility = View.GONE
             stopCallButton.visibility = View.VISIBLE
             bluetoothServices.writeBleCharacteristic(CommandsOptions.START_COLL_VALUE)
+            timer.stopTimer()
         }
 
         stopCallButton.setOnClickListener {
@@ -61,15 +68,20 @@ bluetoothServices.writeBleCharacteristic(CommandsOptions.STOP_COLL_VALUE)
 
         onBackPressedDispatcher.addCallback(this, object : OnBackPressedCallback(true) {
             override fun handleOnBackPressed() {
-                bluetoothServices.disConnect()
-                startActivity(Intent(this@CommunicationWithTheDevice, MainActivity::class.java))
-                finishAffinity()
-
+finishActivity()
             }
         })
+    }
 
+    private fun finishActivity(){
+        bluetoothServices.disConnect()
+        startActivity(Intent(this@CommunicationWithTheDevice, MainActivity::class.java))
+        finishAffinity()
+    }
 
-
+    private fun onTimerExpired(){
+        Log.d("CommunicationWithTheDevice", "Timer expirat - se deconectează dispozitivul BLE.")
+        finishActivity()
     }
 
 
