@@ -62,9 +62,7 @@ private lateinit var textToSpeechHelper: TextToSpeechHelper
         textToSpeechHelper.toSpeak(this.getString(R.string.startBle))
         val stopScaning: Button = findViewById(R.id.stopScaning)
         stopScaning.setOnClickListener {
-            //val beaconManager = BeaconManager.getInstanceForApplication(this)
-            //beaconManager.stopRangingBeacons(iBeaconDeviceScanningService.myIBeaconsRegion)
-            //beaconManager.stopMonitoring(iBeaconDeviceScanningService.myIBeaconsRegion)
+            textToSpeechHelper.releaseOfTtsResources()
             iBeaconDeviceScanningService.stopScaningForeGroundServices()
             startActivity(Intent(this, MainActivity::class.java))
             finishAffinity()
@@ -73,9 +71,7 @@ private lateinit var textToSpeechHelper: TextToSpeechHelper
         // override the back button event to stop scanning and close the activity
         onBackPressedDispatcher.addCallback(this, object : OnBackPressedCallback(true) {
             override fun handleOnBackPressed() {
-                //val beaconManager = BeaconManager.getInstanceForApplication(this@ListDevices)
-                //beaconManager.stopRangingBeacons(iBeaconDeviceScanningService.myIBeaconsRegion)
-                //beaconManager.stopMonitoring(iBeaconDeviceScanningService.myIBeaconsRegion)
+                textToSpeechHelper.releaseOfTtsResources()
                 iBeaconDeviceScanningService.stopScaningForeGroundServices()
                 finish()
             }
