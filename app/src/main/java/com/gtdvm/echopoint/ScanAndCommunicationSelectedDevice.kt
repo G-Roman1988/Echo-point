@@ -18,6 +18,7 @@ import androidx.lifecycle.Observer
 import com.gtdvm.echopoint.bluetoothService.IBeaconDeviceScanningService
 import com.gtdvm.echopoint.bluetoothService.BluetoothServices
 import com.gtdvm.echopoint.bluetoothService.CommandsOptions
+import com.gtdvm.echopoint.utils.TextToSpeechHelper
 import com.gtdvm.echopoint.utils.Timer
 import org.altbeacon.beacon.Beacon
 import org.altbeacon.beacon.BeaconManager
@@ -31,6 +32,7 @@ class ScanAndCommunicationSelectedDevice : AppCompatActivity() {
     private lateinit var timer: Timer
     private var macAddresByCandedateDevice: String = ""
     private lateinit var callButton: Button
+    private lateinit var textToSpeechHelper: TextToSpeechHelper
 
     @SuppressLint("CheckResult")
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -53,6 +55,9 @@ class ScanAndCommunicationSelectedDevice : AppCompatActivity() {
             onTimerExpired()
         }
 
+        //I initialize textospeech
+        textToSpeechHelper = TextToSpeechHelper(this)
+
         //create ibeacon scan class object for scanning ble devices and bluetoothServices for connecting
         iBeaconDeviceScanningService = application as IBeaconDeviceScanningService
         bluetoothServices = BluetoothServices(this)
@@ -60,6 +65,7 @@ class ScanAndCommunicationSelectedDevice : AppCompatActivity() {
          callButton = findViewById(R.id.callButton)
         callButton.visibility = View.GONE
         val stopButton: Button = findViewById(R.id.stopCallButton)
+
         // get livedata object to display data from device ble
         notificationViewModel = ViewModelProvider(this)[NotificationViewModel::class.java]
         notificationViewModel.notificationData.observe(this) {data ->
@@ -70,10 +76,12 @@ class ScanAndCommunicationSelectedDevice : AppCompatActivity() {
                 timer.startTimer()
             } else{
                 messageTextView.text = data
+                textToSpeechHelper.toSpeak(data)
             }
         }
 //initialize the textview with the message when the scan started
         messageTextView.text = getString(R.string.startBle)
+        textToSpeechHelper.toSpeak(messageTextView.text.toString())
         //create the region and retrieve the monitoring, range of live data objects
         val regionViewModel = BeaconManager.getInstanceForApplication(this).getRegionViewModel(iBeaconDeviceScanningService.myIBeaconsRegion)
         regionViewModel.regionState.observe(this, monitoringObserver)
@@ -95,6 +103,7 @@ class ScanAndCommunicationSelectedDevice : AppCompatActivity() {
         // override the Back button event to log out of the device if it is connected
         onBackPressedDispatcher.addCallback(this, object : OnBackPressedCallback(true) {
             override fun handleOnBackPressed() {
+                textToSpeechHelper.releaseOfTtsResources()
                 if (bluetoothServices.isConnected()){
                     bluetoothServices.disConnect()
                     finish()
@@ -134,6 +143,7 @@ class ScanAndCommunicationSelectedDevice : AppCompatActivity() {
     private fun onTimerExpired(){
         Log.d("CommunicationWithTheDevice", "Timer expirat - se deconectează dispozitivul BLE.")
         bluetoothServices.disConnect()
+        textToSpeechHelper.releaseOfTtsResources()
         finish()
     }
 
