@@ -18,6 +18,8 @@
     <string name="Location_Is_enabled">Locația este activată</string>
     <string name="Location_sucessed_enabled">Locația sa activat cu suces</string>
     <string name="message_undercategory">Selectați o opțiune din listă</string>
+    <string name="MessageFeedbackforsuccesed">Aprecierea DVS a fost transmisă cu suces. vă mulțumim de răspuns</string>
+    <string name="MessageFeedbackError">Sa produs o eroare la transmiterea răspunsul DVS încercați mai tîrziu</string>
     <string name="startScan">Pornire scanare</string>
     <string name="stopScan">Oprire scanare</string>
     <string name="startCall">Chemare</string>

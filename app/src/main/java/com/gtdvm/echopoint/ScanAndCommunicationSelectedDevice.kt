@@ -18,6 +18,7 @@ import androidx.lifecycle.Observer
 import com.gtdvm.echopoint.bluetoothService.IBeaconDeviceScanningService
 import com.gtdvm.echopoint.bluetoothService.BluetoothServices
 import com.gtdvm.echopoint.bluetoothService.CommandsOptions
+import com.gtdvm.echopoint.utils.Feedback
 import com.gtdvm.echopoint.utils.TextToSpeechHelper
 import com.gtdvm.echopoint.utils.Timer
 import org.altbeacon.beacon.Beacon
@@ -141,10 +142,13 @@ class ScanAndCommunicationSelectedDevice : AppCompatActivity() {
     }
 
     private fun onTimerExpired(){
-        Log.d("CommunicationWithTheDevice", "Timer expirat - se deconectează dispozitivul BLE.")
+        Log.d("CommunicationWithTheDevice", "Expired Timer - Ble device is disconnected.")
         bluetoothServices.disConnect()
-        textToSpeechHelper.releaseOfTtsResources()
-        finish()
+        Feedback.showReviewDialog(this){
+            textToSpeechHelper.releaseOfTtsResources()
+            finish()
+
+        }
     }
 
     // the livedata object of the monitor callback
