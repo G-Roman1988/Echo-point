@@ -12,6 +12,7 @@ import android.util.Log
 import androidx.lifecycle.ViewModelProvider
 import com.gtdvm.echopoint.bluetoothService.BluetoothServices
 import com.gtdvm.echopoint.bluetoothService.CommandsOptions
+import com.gtdvm.echopoint.utils.Feedback
 import com.gtdvm.echopoint.utils.TextToSpeechHelper
 import com.gtdvm.echopoint.utils.Timer
 
@@ -79,10 +80,12 @@ finishActivity()
     }
 
     private fun finishActivity(){
-        textToSpeechHelper.releaseOfTtsResources()
         bluetoothServices.disConnect()
-        startActivity(Intent(this@CommunicationWithTheDevice, MainActivity::class.java))
-        finishAffinity()
+        Feedback.showReviewDialog(this){
+            textToSpeechHelper.releaseOfTtsResources()
+            startActivity(Intent(this@CommunicationWithTheDevice, MainActivity::class.java))
+            finishAffinity()
+        }
     }
 
     private fun onTimerExpired(){

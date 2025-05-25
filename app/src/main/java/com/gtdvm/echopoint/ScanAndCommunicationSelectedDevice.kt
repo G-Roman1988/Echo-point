@@ -147,7 +147,6 @@ class ScanAndCommunicationSelectedDevice : AppCompatActivity() {
         Feedback.showReviewDialog(this){
             textToSpeechHelper.releaseOfTtsResources()
             finish()
-
         }
     }
 

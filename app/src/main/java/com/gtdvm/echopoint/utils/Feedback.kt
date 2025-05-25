@@ -22,11 +22,11 @@ object Feedback {
                 val reviewInfo = task.result
                 val flow = manager.launchReviewFlow(activity, reviewInfo)
                 flow.addOnCompleteListener {
-                    Toast.makeText(activity, activity.getString(R.string.MessageFeedbackforsuccesed), Toast.LENGTH_SHORT).show()
+//                    Toast.makeText(activity, activity.getString(R.string.MessageFeedbackforsuccesed), Toast.LENGTH_SHORT).show()
                     Log.d("FEEDBACK", "Feedback has been successfully sent")
                     onComplete?.invoke()
                 }
-                flow.addOnFailureListener {exception ->
+                .addOnFailureListener {exception ->
                     Toast.makeText(activity, activity.getString(R.string.MessageFeedbackError), Toast.LENGTH_SHORT).show()
                     Log.d("FEEDBACK", "An error occurred when displaying feedback dialog: $exception.message")
                     onComplete?.invoke()
