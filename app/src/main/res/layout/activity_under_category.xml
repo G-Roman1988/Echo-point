@@ -8,6 +8,7 @@
     tools:context=".UnderCategory">
 
     <com.google.android.material.appbar.AppBarLayout
+        android:id="@+id/appBarLayout"
         android:layout_width="match_parent"
         android:layout_height="wrap_content">
         <com.google.android.material.appbar.MaterialToolbar
@@ -20,11 +21,12 @@
 
     <androidx.recyclerview.widget.RecyclerView
         android:id="@+id/underCategoryList"
-        android:layout_width="399dp"
-        android:layout_height="663dp"
-        android:layout_marginTop="?attr/actionBarSize"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
         android:importantForAccessibility="yes"
-        android:padding="8dp"
-        android:textSize="16sp" />
+        android:padding="16dp"
+        android:clipToPadding="false"
+        android:textSize="16sp"
+        app:layout_behavior="@string/appbar_scrolling_view_behavior" />
 
 </androidx.coordinatorlayout.widget.CoordinatorLayout>

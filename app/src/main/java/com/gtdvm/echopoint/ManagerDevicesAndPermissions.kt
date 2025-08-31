@@ -212,7 +212,7 @@ open class BeaconScanPermissionsActivity: ManagerDevicesAndPermissions()  {
                 checkBox.isChecked = true
             }
             else {
-                checkBox.setBackgroundColor(Color.RED)
+                checkBox.setBackgroundColor(Color.parseColor("#FF6666"))
                 checkBox.isChecked = false
             }
             index ++

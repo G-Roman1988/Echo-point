@@ -58,8 +58,8 @@ private lateinit var textToSpeechHelper: TextToSpeechHelper
         regionViewModel.rangedBeacons.observe(this, rangingObserver)
 
          messageDialogText = findViewById(R.id.MessageTextDialog)
-        messageDialogText.text = this.getString(R.string.startBle)
-        textToSpeechHelper.toSpeak(this.getString(R.string.startBle))
+        messageDialogText.text = this.getString(R.string.Scaning_BLE)
+        textToSpeechHelper.toSpeak(this.getString(R.string.Scaning_BLE))
         val stopScaning: Button = findViewById(R.id.stopScaning)
         stopScaning.setOnClickListener {
             textToSpeechHelper.releaseOfTtsResources()
@@ -106,13 +106,11 @@ private lateinit var textToSpeechHelper: TextToSpeechHelper
     private val monitoringObserver = Observer<Int> {state ->
         if (state == MonitorNotifier.OUTSIDE){
             Log.d("RESULT_SCAN", "nu este nimic în jur")
-            recyclerView.visibility =View.INVISIBLE
-        messageDialogText.visibility = View.VISIBLE
             messageDialogText.text = this.getString(R.string.startBle)
+            textToSpeechHelper.toSpeak(this.getString(R.string.startBle))
         } else {
             Log.d("RESULT_SCAN", "ceva este înapropriere")
-            recyclerView.visibility = View.VISIBLE
-            messageDialogText.visibility = View.INVISIBLE
+            messageDialogText.text = this.getString(R.string.Has_Been_Identified)
         }
     }
 
@@ -133,10 +131,10 @@ private lateinit var textToSpeechHelper: TextToSpeechHelper
                             rssi = beacon.rssi
                         }
                         devicesFound.add(iBeacon)
-                        messageDialogText.visibility = View.GONE
+                        messageDialogText.text = this.getString(R.string.Has_Been_Identified)
                     } else {
-                        messageDialogText.visibility = View.VISIBLE
-messageDialogText.text = this.getString(R.string.message_selected_device_is_not_nearby)
+                        messageDialogText.text = this.getString(R.string.message_selected_device_is_not_nearby)
+                        textToSpeechHelper.toSpeak(this.getString(R.string.message_selected_device_is_not_nearby))
                     }
                 }
         }
