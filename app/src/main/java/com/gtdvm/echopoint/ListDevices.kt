@@ -141,6 +141,7 @@ private lateinit var textToSpeechHelper: TextToSpeechHelper
         bleDevicesAdapter.updateDevices(devicesFound)
     }
 
+
     //function on click
     private fun onDeviceClick(device: IBeacon) {
         val beaconManager = BeaconManager.getInstanceForApplication(this)
