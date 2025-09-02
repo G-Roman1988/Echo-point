@@ -1,12 +1,12 @@
 <resources>
     <string name="app_name">GuideBeep</string>
-    <string name="mainMessage">Selectați o categorie pe butonul din stînga sus</string>
+    <string name="mainMessage">Selectați o categorie pe butonul din stânga sus</string>
     <string name="dropdownName">Categoria</string>
     <string name="preferences">Favorite</string>
-    <string name="startBle">În apropierea DVS nu este nimic,se scanează</string>
+    <string name="startBle">În apropierea dumneavoastră nu este nimic, se scanează</string>
     <string name="Scaning_BLE">Se scanează</string>
     <string name="Has_Been_Identified">Se apropie</string>
-    <string name="Message_After_Connecting">Punctul de orentare este în apropiere pentru să vă orentați mai bine accesînd buton chemare </string>
+    <string name="Message_After_Connecting">Punctul de orentare este în apropiere, pentru ca să vă orentați mai bine accesați buton chemare </string>
     <string name="Message_after_Deconnection">Connecsiunea încheiată </string>
     <string name="selectcategory">Categoria selectată: </string>
     <string name="title_activity_under_category">Sub Categorie</string>
