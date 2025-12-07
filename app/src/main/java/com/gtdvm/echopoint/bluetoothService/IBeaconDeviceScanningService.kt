@@ -12,8 +12,9 @@ import org.altbeacon.beacon.*
 
 
 class IBeaconDeviceScanningService: Application() {
-    private val bleUUID = "A134D0B2-1DA2-1BA7-C94C-E8E00C9F7A2D" //"2D7A9F0C-E0E8-4CC9-A71B-A21DB2D034A1"
+    private val bleUUID = "A134D0B2-1DA2-1BA7-C94C-E8E00C9F7A2D"
     val myIBeaconsRegion: Region = Region("all-beacons", Identifier.parse(bleUUID), null, null)
+    //val myIBeaconsRegion: Region = Region("all-beacons", null, null, null)
 
     override fun onCreate() {
         super.onCreate()

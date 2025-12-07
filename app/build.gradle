@@ -8,15 +8,15 @@ apply plugin: 'kotlin-android'
 
 android {
     namespace 'com.gtdvm.echopoint'
-    compileSdk 34
+    compileSdk 36
 
 
     defaultConfig {
         applicationId "com.gtdvm.echopoint"
         minSdk 27
         targetSdk 36
-        versionCode 3
-        versionName "1.0.1"
+        versionCode 5
+        versionName "1.0.3"
 
         testInstrumentationRunner "androidx.test.runner.AndroidJUnitRunner"
     }
