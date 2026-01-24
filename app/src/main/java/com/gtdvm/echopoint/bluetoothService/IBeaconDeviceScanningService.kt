@@ -8,6 +8,7 @@ import androidx.core.app.NotificationCompat
 import androidx.lifecycle.Observer
 import com.gtdvm.echopoint.ListDevices
 import com.gtdvm.echopoint.R
+import com.gtdvm.echopoint.data.DataRepository
 import org.altbeacon.beacon.*
 
 
@@ -23,6 +24,7 @@ BeaconManager.setDebug(true)
         val parser = BeaconParser().setBeaconLayout("m:2-3=0215,i:4-19,i:20-21,i:22-23,p:24-24")
         parser.setHardwareAssistManufacturerCodes(arrayOf(0x004c).toIntArray())
         beaconManager.getBeaconParsers().add( parser)
+    DataRepository.dataPreparation(this)
     }
 
     fun setupBeaconScanning(){

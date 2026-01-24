@@ -7,7 +7,7 @@ import android.view.ViewGroup
 import androidx.recyclerview.widget.RecyclerView
 import android.widget.Button
 import androidx.recyclerview.widget.DiffUtil
-import com.gtdvm.echopoint.DataServices
+import com.gtdvm.echopoint.data.DataServices
 import com.gtdvm.echopoint.bluetoothService.IBeacon
 import com.gtdvm.echopoint.R
 import com.gtdvm.echopoint.utils.TextToSpeechHelper
@@ -19,9 +19,9 @@ class BleDevicesAdapter (private val context: Context, private val devices: Muta
     inner class ViewHolder (itemView: View) : RecyclerView.ViewHolder (itemView) {
         private val resultScannerDevices: Button = itemView.findViewById(R.id.resultScannerDevicesButton)
         fun bind(resultBleDevice: IBeacon) {
-            val categoryTextWidgets = dataServices.getNameByMajor(context, resultBleDevice.major.toString())
-            val numberTextWidgets = dataServices.getNumberByMinor(context, resultBleDevice.major.toString(), resultBleDevice.minor.toString())
-            val informationWidgets = dataServices.getInformationByNumber(context, resultBleDevice.major.toString(), resultBleDevice.minor.toString())
+            val categoryTextWidgets = dataServices.getNameByMajor(resultBleDevice.major.toString())
+            val numberTextWidgets = dataServices.getNumberByMinor(resultBleDevice.major.toString(), resultBleDevice.minor.toString())
+            val informationWidgets = dataServices.getInformationByNumber(resultBleDevice.major.toString(), resultBleDevice.minor.toString())
 tts.toSpeak(context.getString(R.string.Message_to_tts, categoryTextWidgets, numberTextWidgets))
             resultScannerDevices.text = context.getString(R.string.DeviceWidgetName, categoryTextWidgets, numberTextWidgets, informationWidgets)
 

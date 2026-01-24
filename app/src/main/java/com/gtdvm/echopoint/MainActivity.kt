@@ -9,10 +9,10 @@ import android.view.View
 import android.widget.Button
 import android.widget.AdapterView
 import android.widget.ArrayAdapter
-import android.view.ViewGroup
 import android.widget.Spinner
 import android.widget.Toast
 import androidx.appcompat.widget.Toolbar
+import com.gtdvm.echopoint.data.DataServices
 
 
 class MainActivity : AppCompatActivity(), ManagerDevices.BluetoothPermissionCallback {
@@ -48,7 +48,7 @@ class MainActivity : AppCompatActivity(), ManagerDevices.BluetoothPermissionCall
         managerDevices = ManagerDevices(this)
         val dataServices = DataServices()
         val spinner:Spinner = findViewById(R.id.spinner)
-        val categories = dataServices.getDropdownCategoryName(this)
+        val categories = dataServices.getDropdownCategoryName()
         val adapter = ArrayAdapter(this, android.R.layout.simple_spinner_item, categories)
         //val adapter = ArrayAdapter(this, R.layout.spinner_dropdown_item, categories)
         adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item)
@@ -62,7 +62,7 @@ class MainActivity : AppCompatActivity(), ManagerDevices.BluetoothPermissionCall
                 val selectedCategory = parent.getItemAtPosition(position) as String
                 Toast.makeText(applicationContext, getString(R.string.selectcategory)+selectedCategory, Toast.LENGTH_SHORT).show()
                 if (selectedCategory != categories[0]) {
-                    SelectedDevice.setCategory(this@MainActivity, selectedCategory)
+                    SelectedDevice.setCategory(selectedCategory)
                     val intent = Intent(applicationContext, UnderCategory::class.java)
                     intent.putExtra("selectedCategory", selectedCategory)
                     startActivity(intent)

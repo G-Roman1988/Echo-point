@@ -15,6 +15,7 @@ import androidx.recyclerview.widget.RecyclerView
 //import android.view.View
 //import android.view.ViewGroup
 import com.gtdvm.echopoint.adapters.NumberAdapter
+import com.gtdvm.echopoint.data.DataServices
 
 
 class UnderCategory : AppCompatActivity() {
@@ -35,7 +36,7 @@ class UnderCategory : AppCompatActivity() {
 
         if (dropdownSelectedCategory != null) {
             val dataServices = DataServices()
-            val numbers = dataServices.getNumbersForCategory(this, dropdownSelectedCategory)
+            val numbers = dataServices.getNumbersForCategory(dropdownSelectedCategory)
             numberAdapter = NumberAdapter(this, numbers, dropdownSelectedCategory) {
                     number -> onNumberClicked(number)
             }
@@ -50,8 +51,8 @@ class UnderCategory : AppCompatActivity() {
             }
 
     private fun onNumberClicked (number: String) {
-SelectedDevice.setUnderCategory(this, number)
-        if (SelectedDevice.isAllItems(this, number)){
+SelectedDevice.setUnderCategory(number)
+        if (SelectedDevice.isAllItems(number)){
             val listDevices = Intent(applicationContext, ListDevices::class.java)
             startActivity(listDevices)
         } else{
