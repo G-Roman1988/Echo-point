@@ -13,7 +13,10 @@ import android.widget.Spinner
 import android.widget.Toast
 import androidx.appcompat.widget.Toolbar
 import com.gtdvm.echopoint.data.DataServices
-
+import androidx.lifecycle.lifecycleScope
+import com.gtdvm.echopoint.data.DataRepository
+import kotlinx.coroutines.flow.collectLatest
+import kotlinx.coroutines.launch
 
 class MainActivity : AppCompatActivity(), ManagerDevices.BluetoothPermissionCallback {
     private lateinit var managerDevices: ManagerDevices
@@ -42,10 +45,29 @@ class MainActivity : AppCompatActivity(), ManagerDevices.BluetoothPermissionCall
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)
+
+        // initialize the repository
+        DataRepository.dataPreparation(this)
         val mainAppBar: Toolbar = findViewById(R.id.MainAppBar)
         setSupportActionBar(mainAppBar)
         supportActionBar?.title = this.getString(R.string.app_name)
         managerDevices = ManagerDevices(this)
+
+        lifecycleScope.launch {
+            DataRepository.isDataReady.collectLatest { ready ->
+if (ready) {
+    setupSpinner()
+}
+            }
+        }
+
+        val startScanButton: Button = findViewById(R.id.startScaning)
+        startScanButton.setOnClickListener {
+            startActivity(Intent(this, ListDevices::class.java))
+        }
+    }
+
+    private fun setupSpinner(){
         val dataServices = DataServices()
         val spinner:Spinner = findViewById(R.id.spinner)
         val categories = dataServices.getDropdownCategoryName()
@@ -73,10 +95,6 @@ class MainActivity : AppCompatActivity(), ManagerDevices.BluetoothPermissionCall
             override fun onNothingSelected(parent: AdapterView<*>) {
 
             }
-        }
-        val startScanButton: Button = findViewById(R.id.startScaning)
-        startScanButton.setOnClickListener {
-            startActivity(Intent(this, ListDevices::class.java))
         }
     }
 
