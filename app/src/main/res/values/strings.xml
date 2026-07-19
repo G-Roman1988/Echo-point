@@ -35,6 +35,13 @@
     <string name="CommunicationAppBarTitle">Communicare</string>
     <string name="ListDevicesAppBarTitle">Lista dispozitivelor</string>
     <string name="ScaningCommunicationAppBarTitle">         Scanare și communicare</string>
+<string name="notification_device_found_message">este În regiune</string>
+    <string name="notification_device_lost_message">a părăsit regiunea</string>
+    <string name="notification_entered_message">sunt detectate dispozitive</string>
+    <string name="notification_entered_title">În zonă</string>
+<string name="notification_exited_title">În afara regiunei</string>
+<string name="notification_exited_message">nu este nimic se scanează</string>
+
 
     <string name="large_text">
         "Material is the metaphor.\n\n"
