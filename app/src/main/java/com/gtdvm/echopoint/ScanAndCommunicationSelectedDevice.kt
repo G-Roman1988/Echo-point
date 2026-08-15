@@ -18,9 +18,11 @@ import com.gtdvm.echopoint.bluetoothService.CommandsOptions
 import com.gtdvm.echopoint.utils.Feedback
 import com.gtdvm.echopoint.utils.TextToSpeechHelper
 import com.gtdvm.echopoint.utils.Timer
-import org.altbeacon.beacon.Beacon
+import com.gtdvm.echopoint.viewmodel.BeaconViewModel
+//import org.altbeacon.beacon.Beacon
 import org.altbeacon.beacon.BeaconManager
-import org.altbeacon.beacon.MonitorNotifier
+//import org.altbeacon.beacon.MonitorNotifier
+//import java.text.BreakIterator
 
 
 class ScanAndCommunicationSelectedDevice : AppCompatActivity() {
@@ -28,6 +30,7 @@ class ScanAndCommunicationSelectedDevice : AppCompatActivity() {
     private lateinit var iBeaconDeviceScanningService: IBeaconDeviceScanningService
     private lateinit var notificationViewModel: NotificationViewModel
     private lateinit var timer: Timer
+    private val beaconViewModel: BeaconViewModel get() = iBeaconDeviceScanningService.beaconViewModel
     private var macAddresByCandedateDevice: String = ""
     private lateinit var callButton: Button
     private lateinit var textToSpeechHelper: TextToSpeechHelper
@@ -74,10 +77,14 @@ class ScanAndCommunicationSelectedDevice : AppCompatActivity() {
 //initialize the textview with the message when the scan started
         messageTextView.text = getString(R.string.startBle)
         textToSpeechHelper.toSpeak(messageTextView.text.toString())
+
+        // Observer : event per device —
+        beaconViewModel.deviceStatus.observe(this, deviceStatusObserver)
+
         //create the region and retrieve the monitoring, range of live data objects
-        val regionViewModel = BeaconManager.getInstanceForApplication(this).getRegionViewModel(iBeaconDeviceScanningService.myIBeaconsRegion)
+        /*val regionViewModel = BeaconManager.getInstanceForApplication(this).getRegionViewModel(iBeaconDeviceScanningService.myIBeaconsRegion)
         regionViewModel.regionState.observe(this, monitoringObserver)
-        regionViewModel.rangedBeacons.observe(this, rangingObserver)
+        regionViewModel.rangedBeacons.observe(this, rangingObserver)*/
 
         callButton.setOnClickListener{
             callButton.visibility = View.GONE
@@ -110,6 +117,7 @@ class ScanAndCommunicationSelectedDevice : AppCompatActivity() {
     // override the summary function
     override fun onResume() {
         super.onResume()
+        Log.d(TAG, "the application is back in the foreground")
         //check if all permissions are accepted
         if (!BeaconScanPermissionsActivity.allPermissionsGranted(this, true)) {
             // permissions are not supported and prompt the user
@@ -119,15 +127,17 @@ class ScanAndCommunicationSelectedDevice : AppCompatActivity() {
         } else {
             //permissions are accepted and start foreground service and scan
             if (    BeaconManager.getInstanceForApplication(this).monitoredRegions.isEmpty()) {
-                (application as IBeaconDeviceScanningService).setupBeaconScanning()
-                val beaconManager = BeaconManager.getInstanceForApplication(this)
-                beaconManager.startMonitoring(iBeaconDeviceScanningService.myIBeaconsRegion)
-                beaconManager.startRangingBeacons(iBeaconDeviceScanningService.myIBeaconsRegion)
+                iBeaconDeviceScanningService.setupBeaconScanning()
+//                (application as IBeaconDeviceScanningService).setupBeaconScanning()
+                //val beaconManager = BeaconManager.getInstanceForApplication(this)
+                //beaconManager.startMonitoring(iBeaconDeviceScanningService.myIBeaconsRegion)
+                //beaconManager.startRangingBeacons(iBeaconDeviceScanningService.myIBeaconsRegion)
             }
             if (    BeaconManager.getInstanceForApplication(this).rangedRegions.isEmpty()) {
-                val beaconManager = BeaconManager.getInstanceForApplication(this)
-                beaconManager.startRangingBeacons(iBeaconDeviceScanningService.myIBeaconsRegion)
-                beaconManager.startMonitoring(iBeaconDeviceScanningService.myIBeaconsRegion)
+                iBeaconDeviceScanningService.setupBeaconScanning()
+                //val beaconManager = BeaconManager.getInstanceForApplication(this)
+                //beaconManager.startRangingBeacons(iBeaconDeviceScanningService.myIBeaconsRegion)
+                //beaconManager.startMonitoring(iBeaconDeviceScanningService.myIBeaconsRegion)
             }
         }
     }
@@ -142,16 +152,29 @@ class ScanAndCommunicationSelectedDevice : AppCompatActivity() {
     }
 
     // the livedata object of the monitor callback
-    private val monitoringObserver = Observer<Int> { state ->
+    /*private val monitoringObserver = Observer<Int> { state ->
         if (state == MonitorNotifier.OUTSIDE){
             Log.d("RESULT_SCAN", "there is nothing around")
         } else {
             Log.d("SCANING", "something is appropriation")
         }
-    }
+    }*/
 
     //the livedata object from the callback range
-    private val rangingObserver = Observer<Collection<Beacon>> { beacons ->
+    private val deviceStatusObserver = Observer<List<BeaconViewModel.DeviceStatusEvent>> { events ->
+        events.forEach { event ->
+            when (event.status) {
+                BeaconViewModel.DeviceStatus.FOUND ->{
+                    macAddresByCandedateDevice = event.device.macAddress?: return@forEach
+                    iBeaconDeviceScanningService.stopScaningForeGroundServices()
+                    bluetoothServices.connectToDevice(macAddresByCandedateDevice)
+                    callButton.visibility = View.VISIBLE
+                }
+                BeaconViewModel.DeviceStatus.LOST -> {}
+            }
+        }
+    }
+    /*private val rangingObserver = Observer<Collection<Beacon>> { beacons ->
         if (BeaconManager.getInstanceForApplication(this).rangedRegions.isNotEmpty()) {
             beacons.sortedBy { it.distance }
                 .map { beacon ->
@@ -163,8 +186,11 @@ callButton.visibility = View.VISIBLE
                     }
                 }
         }
+    }*/
+
+    private companion object{
+        const val TAG = "ScanAndCommunicationSelectedDevice"
     }
 
-
-
 }
+

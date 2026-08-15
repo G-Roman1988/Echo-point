@@ -21,9 +21,9 @@ import androidx.recyclerview.widget.RecyclerView
                         import com.gtdvm.echopoint.utils.AuxiliaryFunctions
                         import com.gtdvm.echopoint.utils.TextToSpeechHelper
                         import com.gtdvm.echopoint.viewmodel.BeaconViewModel
-                        import org.altbeacon.beacon.Beacon
+//                        import org.altbeacon.beacon.Beacon
 import org.altbeacon.beacon.BeaconManager
-import org.altbeacon.beacon.MonitorNotifier
+//import org.altbeacon.beacon.MonitorNotifier
 
 
 class ListDevices : AppCompatActivity() {
@@ -64,6 +64,7 @@ private lateinit var textToSpeechHelper: TextToSpeechHelper
         /*regionViewModel = BeaconManager.getInstanceForApplication(this).getRegionViewModel(iBeaconDeviceScanningService.myIBeaconsRegion)
     regionViewModel?.regionState?.observeForever(monitoringObserver)
 regionViewModel ?.rangedBeacons?.   observeForever(rangingObserver)*/
+
 // Observer 1: state of the region —
         beaconViewModel.regionStatus.observe(this, regionStatusObserver)
 // Observer 2: processed list —
@@ -93,7 +94,7 @@ regionViewModel ?.rangedBeacons?.   observeForever(rangingObserver)*/
     // The activity returns to the foreground
     override fun onResume() {
         super.onResume()
-        Log.d(TAG, "aplicatia a revenit in primplan")
+        Log.d(TAG, "the application is back in the foreground")
         textToSpeechHelper.stopObservingViewModel()
         Log.d(TAG, "onResume - the activity retrieves the announcements")
         //check if all permissions are accepted
@@ -124,7 +125,7 @@ regionViewModel ?.rangedBeacons?.   observeForever(rangingObserver)*/
         super.onPause()
         textToSpeechHelper.startObservingViewModel(beaconViewModel)
         Log.d(TAG, "onPause - TTS picks up the announcements")
-        Log.d(TAG, "aplicatia este in fundal")
+        Log.d(TAG, "the application is in the background")
     }
 
     // We remove Forever observers and release TTS when the activity is destroyed.
@@ -132,7 +133,7 @@ regionViewModel ?.rangedBeacons?.   observeForever(rangingObserver)*/
         super.onDestroy()
         //regionViewModel?.regionState?.removeObserver(monitoringObserver)
         //regionViewModel?.rangedBeacons?.removeObserver(rangingObserver)
-        Log.d("ListDevices", "onDestroy - observers removed")
+        Log.d(TAG, "onDestroy - observers removed")
         textToSpeechHelper.releaseOfTtsResources()
     }
 
@@ -207,7 +208,6 @@ when (event.status) {
    private companion object {
          const val TAG = "ListDevices"
     }
-
 
 }
 

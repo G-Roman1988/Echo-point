@@ -112,15 +112,25 @@ private fun deleteOldDevices() {
         .forEach { mac -> deleteDevice(mac) }
 }
 
-    override fun onCleared() {
-        super.onCleared()
+    private fun resetState() {
         currentDevices.clear()
         timestamp.clear()
         deviceHasChangedState.clear()
+        _deviceList.postValue(emptyList())
+        _deviceStatus.postValue(emptyList())
+        _regionStatus.postValue(RegionStatus.OUTSIDE)
+        Log.d(TAG, "State reset")
+    }
+
+    override fun onCleared() {
+        super.onCleared()
+        resetState()
         Log.d(TAG, "BeaconViewModel destroyed")
     }
 
-
+    fun clear(){
+        resetState()
+    }
 
     private companion object {
         const val TAG = "BeaconViewModel"

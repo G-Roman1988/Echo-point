@@ -28,7 +28,10 @@ private val notificationManager by lazy { getSystemService(NOTIFICATION_SERVICE)
     override fun onCreate() {
         super.onCreate()
         val beaconManager: BeaconManager = BeaconManager.getInstanceForApplication(this)
-BeaconManager.setDebug(true)
+        BeaconManager.setDebug(true)
+        beaconManager.setEnableScheduledScanJobs(false)
+        beaconManager.setBackgroundScanPeriod(1100L)
+        beaconManager.setBackgroundBetweenScanPeriod(0L)
         val parser = BeaconParser().setBeaconLayout("m:2-3=0215,i:4-19,i:20-21,i:22-23,p:24-24")
         parser.setHardwareAssistManufacturerCodes(arrayOf(0x004c).toIntArray())
         beaconManager.beaconParsers.add(parser) //getBeaconParsers()
@@ -38,18 +41,13 @@ BeaconManager.setDebug(true)
 
     fun setupBeaconScanning(){
 val beaconManager = BeaconManager.getInstanceForApplication(this)
-    .apply {
-        setEnableScheduledScanJobs(false)
-        setBackgroundScanPeriod(1100L)      // scan period normal
-        setBackgroundBetweenScanPeriod(2000L)  // fara pauza
-        backgroundMode = false               // nu reduce in background
-    }
         try {
             setupForegroundService()
         } catch (e: SecurityException){
             Log.d(TAG, "Not setting up foreground service scanning until location permission granted by user. $e")
             return
         }
+        beaconViewModel.clear()
         beaconManager.startMonitoring(myIBeaconsRegion)
         beaconManager.startRangingBeacons(myIBeaconsRegion)
         val regionViewModel = BeaconManager.getInstanceForApplication(this).getRegionViewModel(myIBeaconsRegion)
