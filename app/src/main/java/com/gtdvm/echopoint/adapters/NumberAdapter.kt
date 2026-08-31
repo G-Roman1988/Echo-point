@@ -7,7 +7,7 @@ import androidx.recyclerview.widget.RecyclerView
 import android.widget.Button
 import android.content.Context
 import com.gtdvm.echopoint.R
-import com.gtdvm.echopoint.DataServices
+import com.gtdvm.echopoint.data.DataServices
 
 class NumberAdapter(private val context: Context, private val numbers: List<String>, private val numeCategorie: String, private val onItemClick: (String) ->Unit) : RecyclerView.Adapter<NumberAdapter.NumberViewHolder>() {
     private val dataServices = DataServices()
@@ -15,7 +15,7 @@ class NumberAdapter(private val context: Context, private val numbers: List<Stri
         //private val underCategory: View = itemView.findViewById(R.id.underCategoryList)
         private val underCategory: Button = itemView.findViewById(R.id.resultScannerDevicesButton)
         fun bind(number: String) {
-            val numberInformation = dataServices.getInformationByNumber(context, numeCategorie, number)
+            val numberInformation = dataServices.getInformationByNumber(numeCategorie, number)
             underCategory.text =context.getString(R.string.DeviceWidgetList, number, numberInformation) //.DeviceWidgetList, numeCategorie, number
 
             underCategory.setOnClickListener {

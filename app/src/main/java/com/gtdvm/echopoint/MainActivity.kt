@@ -9,11 +9,14 @@ import android.view.View
 import android.widget.Button
 import android.widget.AdapterView
 import android.widget.ArrayAdapter
-import android.view.ViewGroup
 import android.widget.Spinner
 import android.widget.Toast
 import androidx.appcompat.widget.Toolbar
-
+import com.gtdvm.echopoint.data.DataServices
+import androidx.lifecycle.lifecycleScope
+import com.gtdvm.echopoint.data.DataRepository
+import kotlinx.coroutines.flow.collectLatest
+import kotlinx.coroutines.launch
 
 class MainActivity : AppCompatActivity(), ManagerDevices.BluetoothPermissionCallback {
     private lateinit var managerDevices: ManagerDevices
@@ -42,27 +45,44 @@ class MainActivity : AppCompatActivity(), ManagerDevices.BluetoothPermissionCall
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)
+
+        // initialize the repository
+        DataRepository.dataPreparation(this)
         val mainAppBar: Toolbar = findViewById(R.id.MainAppBar)
         setSupportActionBar(mainAppBar)
         supportActionBar?.title = this.getString(R.string.app_name)
         managerDevices = ManagerDevices(this)
+
+        lifecycleScope.launch {
+            DataRepository.isDataReady.collectLatest { ready ->
+if (ready) {
+    setupSpinner()
+}
+            }
+        }
+
+        val startScanButton: Button = findViewById(R.id.startScaning)
+        startScanButton.setOnClickListener {
+            startActivity(Intent(this, ListDevices::class.java))
+        }
+    }
+
+    private fun setupSpinner(){
         val dataServices = DataServices()
         val spinner:Spinner = findViewById(R.id.spinner)
-        val categories = dataServices.getDropdownCategoryName(this)
-        val adapter = ArrayAdapter(this, android.R.layout.simple_spinner_item, categories)
+        val categories = dataServices.getDropdownCategoryName()
+        val adapter = ArrayAdapter(this, R.layout.spinner_selected_item, categories)
         //val adapter = ArrayAdapter(this, R.layout.spinner_dropdown_item, categories)
-        adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item)
+        adapter.setDropDownViewResource(R.layout.spinner_dropdown_item)
         //adapter.setDropDownViewResource(R.layout.spinner_dropdown_item)
         spinner.adapter = adapter
-
-
 
         spinner.onItemSelectedListener = object : AdapterView.OnItemSelectedListener {
             override fun onItemSelected(parent: AdapterView<*>, view: View?, position: Int, id: Long) {
                 val selectedCategory = parent.getItemAtPosition(position) as String
                 Toast.makeText(applicationContext, getString(R.string.selectcategory)+selectedCategory, Toast.LENGTH_SHORT).show()
                 if (selectedCategory != categories[0]) {
-                    SelectedDevice.setCategory(this@MainActivity, selectedCategory)
+                    SelectedDevice.setCategory(selectedCategory)
                     val intent = Intent(applicationContext, UnderCategory::class.java)
                     intent.putExtra("selectedCategory", selectedCategory)
                     startActivity(intent)
@@ -73,10 +93,6 @@ class MainActivity : AppCompatActivity(), ManagerDevices.BluetoothPermissionCall
             override fun onNothingSelected(parent: AdapterView<*>) {
 
             }
-        }
-        val startScanButton: Button = findViewById(R.id.startScaning)
-        startScanButton.setOnClickListener {
-            startActivity(Intent(this, ListDevices::class.java))
         }
     }
 

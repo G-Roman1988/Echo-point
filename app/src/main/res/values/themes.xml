@@ -1,11 +1,12 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
 
-    <style name="Theme.EchoPoint" parent="Theme.AppCompat.Light.NoActionBar">
+    <style name="Theme.EchoPoint" parent="Theme.Material3.Light.NoActionBar">
         <item name="buttonStyle">@style/GlobalButtonStyle</item>
         <item name="android:windowBackground">@color/black</item>
         <item name="android:textViewStyle">@style/CustomTextViewStyle</item>
-
+        <item name="colorPrimary">@color/dark_green</item>
+        <item name="colorOnPrimary">@color/white</item>
 <item name="appBarLayoutStyle">@style/CustomAppBarStyle</item>
         <item name="toolbarStyle">@style/CustomToolbarStyle</item>
 
@@ -19,7 +20,7 @@
 
     </style>
 
-    <style name="Theme.EchoPoint.AppBarOverlay" parent="ThemeOverlay.AppCompat.Dark.ActionBar" />
+    <style name="Theme.EchoPoint.AppBarOverlay" parent="ThemeOverlay.Material3.Dark.ActionBar" />
 
-    <style name="Theme.EchoPoint.PopupOverlay" parent="ThemeOverlay.AppCompat.Light" />
+    <style name="Theme.EchoPoint.PopupOverlay" parent="ThemeOverlay.Material3.Light" />
 </resources>

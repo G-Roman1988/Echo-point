@@ -2,7 +2,8 @@ package com.gtdvm.echopoint
 
 import android.Manifest
 import android.annotation.SuppressLint
-import android.app.AlertDialog
+//import android.app.AlertDialog
+import androidx.appcompat.app.AlertDialog
 import android.content.Context
 import android.content.pm.PackageManager
 import android.graphics.Color
@@ -18,8 +19,15 @@ import android.widget.TextView
 import androidx.activity.result.contract.ActivityResultContracts
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.content.ContextCompat
-import androidx.core.view.setPadding
+import androidx.core.content.edit
 import android.widget.Toast
+import androidx.core.view.ViewCompat
+import androidx.core.view.WindowInsetsCompat
+import androidx.core.view.updatePadding
+import android.content.Intent
+import android.net.Uri
+import android.provider.Settings
+import androidx.core.graphics.toColorInt
 
 open class ManagerDevicesAndPermissions : AppCompatActivity() {
 
@@ -30,12 +38,12 @@ open class ManagerDevicesAndPermissions : AppCompatActivity() {
                 val isGranted = it.value
                 if (isGranted) {
                     Toast.makeText(this, "$permissionName aceptată", Toast.LENGTH_SHORT).show()
-                    Log.d(TAG, "$permissionName permission granted: $isGranted")
+                    Log.d(TAG, "$permissionName permission granted")
                     // Permission is granted. Continue the action or workflow in your
                     // app.
                 } else {
                     Toast.makeText(this, "$permissionName refuzată", Toast.LENGTH_SHORT).show()
-                    Log.d(TAG, "$permissionName permission granted: $isGranted")
+                    Log.d(TAG, "$permissionName permission denied")
                     // Explain to the user that the feature is unavailable because the
                     // features requires a permission that the user has denied.
                 }
@@ -56,11 +64,9 @@ class PermissionsHelper(val context: Context) {
         return (ContextCompat.checkSelfPermission(context, permissionString) == PackageManager.PERMISSION_GRANTED)
     }
     fun setFirstTimeAskingPermission(permissionString: String, isFirstTime: Boolean) {
-        val sharedPreference = context.getSharedPreferences("org.altbeacon.permisisons",
-            AppCompatActivity.MODE_PRIVATE
-        )
-        sharedPreference.edit().putBoolean(permissionString,
-            isFirstTime).apply()
+        //val sharedPreference =
+            context.getSharedPreferences("org.altbeacon.permisisons", AppCompatActivity.MODE_PRIVATE)
+                .edit {putBoolean(permissionString, isFirstTime)}
     }
 
     fun isFirstTimeAskingPermission(permissionString: String): Boolean {
@@ -70,10 +76,8 @@ class PermissionsHelper(val context: Context) {
 
     fun beaconScanPermissionGroupsNeeded(backgroundAccessRequested: Boolean = false): List<Array<String>> {
         val permissions = ArrayList<Array<String>>()
-        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
-            // As of version M (6) we need FINE_LOCATION (or COARSE_LOCATION, but we ask for FINE)
+         // As of version M (6) we need FINE_LOCATION (or COARSE_LOCATION, but we ask for FINE)
             permissions.add(arrayOf(Manifest.permission.ACCESS_FINE_LOCATION))
-        }
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.Q) {
             // As of version Q (10) we need FINE_LOCATION and BACKGROUND_LOCATION
             if (backgroundAccessRequested) {
@@ -102,19 +106,27 @@ open class BeaconScanPermissionsActivity: ManagerDevicesAndPermissions()  {
     lateinit var layout: LinearLayout
     private lateinit var permissionGroups: List<Array<String>>
     private lateinit var continueButton: Button
-    private var scale: Float = 1.0f
-        get() {
-            return this.getResources().getDisplayMetrics().density
-        }
+    private val scale: Float get() = resources.displayMetrics.density
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
 
         layout = LinearLayout(this)
-        layout.setPadding(dp(20))
+        //layout.setPadding(dp(20))
         layout.gravity = Gravity.CENTER
         layout.setBackgroundColor(Color.BLACK)
         layout.orientation = LinearLayout.VERTICAL
+        ViewCompat.setOnApplyWindowInsetsListener(layout) { view, insets ->
+            val systemBars = insets.getInsets(WindowInsetsCompat.Type.systemBars())
+            view.updatePadding(
+                top = systemBars.top + dp(20),
+                bottom = systemBars.bottom + dp(20),
+                left = dp(20),
+                right = dp(20)
+            )
+            insets
+        }
+
         val backgroundAccessRequested = intent.getBooleanExtra("backgroundAccessRequested", true)
         val title = intent.getStringExtra("title") ?: "Permisiuni necesare"
         val message = intent.getStringExtra("message") ?: "Pentru a scana dispozitive BLE, această aplicație necesită următoarele permisiuni de la sistemul de operare.  Vă rugăm să atingeți fiecare buton pentru a acorda  fiecare permisiunea necesară."
@@ -128,25 +140,24 @@ open class BeaconScanPermissionsActivity: ManagerDevicesAndPermissions()  {
             LinearLayout.LayoutParams.WRAP_CONTENT
         )
         params.setMargins(dp(0), dp(10), dp(0), dp(10))
-
-
-        val titleView = TextView(this)
-        titleView.setGravity(Gravity.CENTER)
-        titleView.textSize = dp(10).toFloat()
-        titleView.text = title
-        titleView.layoutParams = params
-
+        val titleView = TextView(this).apply {
+            //titleView.setGravity(Gravity.CENTER)
+            gravity = Gravity.CENTER
+            textSize = dp(10).toFloat()
+            text = title
+            layoutParams = params
+        }
         layout.addView(titleView)
-        val messageView = TextView(this)
-        messageView.text = message
-        messageView.setGravity(Gravity.CENTER)
-        messageView.textSize = dp(5).toFloat()
-        messageView.textAlignment = TextView.TEXT_ALIGNMENT_CENTER
-        messageView.layoutParams = params
+        val messageView = TextView(this).apply {
+            text = message
+            gravity = Gravity.CENTER
+            textSize = dp(5).toFloat()
+            textAlignment = TextView.TEXT_ALIGNMENT_CENTER
+            layoutParams = params
+        }
         layout.addView(messageView)
 
-        var index = 0
-        for (permissionGroup in permissionGroups) {
+        for ((index, permissionGroup) in permissionGroups.withIndex()) {
             val checkBox = CheckBox(this).apply {
                 id = index
                 text = permissionButtonTitles.getString(permissionGroup.first())
@@ -154,16 +165,14 @@ open class BeaconScanPermissionsActivity: ManagerDevicesAndPermissions()  {
                 setOnClickListener(checkBoxClickListener)
             }
             layout.addView(checkBox)
-            index += 1
         }
 
-        continueButton = Button(this)
-        continueButton.text = continueButtonTitle
-        continueButton.isEnabled = false
-        continueButton.setOnClickListener {
-            this.finish()
+        continueButton = Button(this).apply {
+            text = continueButtonTitle
+            isEnabled = false
+            setOnClickListener { finish() }
+            layoutParams = params
         }
-        continueButton.layoutParams = params
         layout.addView(continueButton)
 
         setContentView(layout)
@@ -204,18 +213,16 @@ open class BeaconScanPermissionsActivity: ManagerDevicesAndPermissions()  {
     }
 
     private fun setCheckBoxColors() {
-        var index = 0
-        for (permissionsGroup in this.permissionGroups) {
+        for ((index, permissionsGroup) in permissionGroups.withIndex()) {
             val checkBox = findViewById<CheckBox>(index)
             if (allPermissionsGranted(permissionsGroup)) {
-                checkBox.setBackgroundColor(Color.parseColor("#448844"))
+                checkBox.setBackgroundColor("#448844".toColorInt())
                 checkBox.isChecked = true
             }
             else {
-                checkBox.setBackgroundColor(Color.RED)
+                checkBox.setBackgroundColor("#FF6666".toColorInt())
                 checkBox.isChecked = false
             }
-            index ++
         }
     }
 
@@ -230,20 +237,29 @@ open class BeaconScanPermissionsActivity: ManagerDevicesAndPermissions()  {
     private fun promptForPermissions(permissionsGroup: Array<String>) {
         if (!allPermissionsGranted(permissionsGroup)) {
             val firstPermission = permissionsGroup.first()
-
-            var showRationale = true
-            if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
-                showRationale = shouldShowRequestPermissionRationale(firstPermission)
-            }
-            if (showRationale ||  PermissionsHelper(this).isFirstTimeAskingPermission(firstPermission)) {
+            val isFirstTime = PermissionsHelper(this).isFirstTimeAskingPermission(firstPermission)
+            val showRationale = shouldShowRequestPermissionRationale(firstPermission)
+            Log.d(TAG, "promptForPermissions: permission=$firstPermission showRationale=$showRationale isFirstTime=$isFirstTime")
+            if (isFirstTime) {
+// First request — we ask for permission directly
                 PermissionsHelper(this).setFirstTimeAskingPermission(firstPermission, false)
+                requestPermissionsLauncher.launch(permissionsGroup)
+            } else if (showRationale) {
+                // Second request — Android shows rationale (user refused once) We ask again, Android will display the explanation
                 requestPermissionsLauncher.launch(permissionsGroup)
             }
             else {
+                Log.d(TAG, "Permissions have been denied and the settings button is displayed.")
                 val builder = AlertDialog.Builder(this)
-                builder.setTitle("Nu pot solicita permisiunea")
-                builder.setMessage("Această permisiune a fost refuzată anterior acestei aplicații.  Pentru a o acorda acum, trebuie să accesați Setările Android pentru a activa această permisiune.")
-                builder.setPositiveButton("OK", null)
+                builder.setTitle("Permisiune necesară")
+                builder.setMessage("Această permisiune a fost refuzată anterior. " + "Pentru a o acorda, apăsați 'Deschide Setările', navigați la " + "'Permisiuni' și acordați permisiunea necesară.")
+                builder.setPositiveButton("Deschide Setările") { _, _ ->
+                    val intent = Intent(Settings.ACTION_APPLICATION_DETAILS_SETTINGS).apply {
+                        data = Uri.fromParts("package", packageName, null)
+                    }
+                    startActivity(intent)
+                }
+                builder.setNegativeButton("Anulează", null)
                 builder.show()
             }
         }

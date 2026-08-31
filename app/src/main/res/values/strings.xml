@@ -1,10 +1,12 @@
 <resources>
     <string name="app_name">GuideBeep</string>
-    <string name="mainMessage">Selectați o categorie pe butonul din stînga sus</string>
+    <string name="mainMessage">Selectați o categorie pe butonul din stânga sus</string>
     <string name="dropdownName">Categoria</string>
     <string name="preferences">Favorite</string>
-    <string name="startBle">În apropierea DVS nu este nimic,se scanează</string>
-    <string name="Message_After_Connecting">Punctul de orentare este în apropiere pentru să vă orentați mai bine accesînd buton chemare </string>
+    <string name="startBle">În apropierea dumneavoastră nu este nimic, se scanează</string>
+    <string name="Scaning_BLE">Se scanează</string>
+    <string name="Has_Been_Identified">Se apropie</string>
+    <string name="Message_After_Connecting">Punctul de orentare este în apropiere, pentru ca să vă orentați mai bine accesați buton chemare </string>
     <string name="Message_after_Deconnection">Connecsiunea încheiată </string>
     <string name="selectcategory">Categoria selectată: </string>
     <string name="title_activity_under_category">Sub Categorie</string>
@@ -18,6 +20,8 @@
     <string name="Location_Is_enabled">Locația este activată</string>
     <string name="Location_sucessed_enabled">Locația sa activat cu suces</string>
     <string name="message_undercategory">Selectați o opțiune din listă</string>
+    <string name="MessageFeedbackforsuccesed">Aprecierea DVS a fost transmisă cu suces. vă mulțumim de răspuns</string>
+    <string name="MessageFeedbackError">Sa produs o eroare la transmiterea răspunsul DVS încercați mai tîrziu</string>
     <string name="startScan">Pornire scanare</string>
     <string name="stopScan">Oprire scanare</string>
     <string name="startCall">Chemare</string>
@@ -31,6 +35,13 @@
     <string name="CommunicationAppBarTitle">Communicare</string>
     <string name="ListDevicesAppBarTitle">Lista dispozitivelor</string>
     <string name="ScaningCommunicationAppBarTitle">         Scanare și communicare</string>
+<string name="notification_device_found_message">este În regiune</string>
+    <string name="notification_device_lost_message">a părăsit regiunea</string>
+    <string name="notification_entered_message">sunt detectate dispozitive</string>
+    <string name="notification_entered_title">În zonă</string>
+<string name="notification_exited_title">În afara regiunei</string>
+<string name="notification_exited_message">nu este nimic se scanează</string>
+
 
     <string name="large_text">
         "Material is the metaphor.\n\n"

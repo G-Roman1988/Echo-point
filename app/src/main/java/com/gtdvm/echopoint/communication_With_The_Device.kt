@@ -12,6 +12,8 @@ import android.util.Log
 import androidx.lifecycle.ViewModelProvider
 import com.gtdvm.echopoint.bluetoothService.BluetoothServices
 import com.gtdvm.echopoint.bluetoothService.CommandsOptions
+import com.gtdvm.echopoint.utils.Feedback
+import com.gtdvm.echopoint.utils.TextToSpeechHelper
 import com.gtdvm.echopoint.utils.Timer
 
 
@@ -19,6 +21,7 @@ class CommunicationWithTheDevice : AppCompatActivity() {
     private lateinit var bluetoothServices: BluetoothServices
     private lateinit var notificationViewModel: NotificationViewModel
     private lateinit var timer: Timer
+    private lateinit var textToSpeechHelper: TextToSpeechHelper
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -34,6 +37,9 @@ class CommunicationWithTheDevice : AppCompatActivity() {
             onTimerExpired()
         }
 
+        //I initiate textospeech
+        textToSpeechHelper = TextToSpeechHelper(this)
+
  val connectingToDeviceFormMacAddres = intent.getStringExtra("connectingTo")
         val notificationMessages: TextView = findViewById(R.id.NotificationText)
         val callSoundButton: Button = findViewById(R.id.CallButton)
@@ -47,10 +53,10 @@ class CommunicationWithTheDevice : AppCompatActivity() {
                 timer.startTimer()
             } else {
                 notificationMessages.text = data
-                //timer.stopTimer()
+                textToSpeechHelper.toSpeak(data)
             }
         }
-        //notificationMessages.text = connectingToDeviceFormMacAddres //"se așteaptă notificările"
+
         bluetoothServices.connectToDevice(connectingToDeviceFormMacAddres!!)
 
         callSoundButton.setOnClickListener {
@@ -75,8 +81,11 @@ finishActivity()
 
     private fun finishActivity(){
         bluetoothServices.disConnect()
-        startActivity(Intent(this@CommunicationWithTheDevice, MainActivity::class.java))
-        finishAffinity()
+        Feedback.showReviewDialog(this){
+            textToSpeechHelper.releaseOfTtsResources()
+            startActivity(Intent(this@CommunicationWithTheDevice, MainActivity::class.java))
+            finishAffinity()
+        }
     }
 
     private fun onTimerExpired(){
