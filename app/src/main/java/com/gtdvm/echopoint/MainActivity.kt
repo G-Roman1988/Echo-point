@@ -71,13 +71,11 @@ if (ready) {
         val dataServices = DataServices()
         val spinner:Spinner = findViewById(R.id.spinner)
         val categories = dataServices.getDropdownCategoryName()
-        val adapter = ArrayAdapter(this, android.R.layout.simple_spinner_item, categories)
+        val adapter = ArrayAdapter(this, R.layout.spinner_selected_item, categories)
         //val adapter = ArrayAdapter(this, R.layout.spinner_dropdown_item, categories)
-        adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item)
+        adapter.setDropDownViewResource(R.layout.spinner_dropdown_item)
         //adapter.setDropDownViewResource(R.layout.spinner_dropdown_item)
         spinner.adapter = adapter
-
-
 
         spinner.onItemSelectedListener = object : AdapterView.OnItemSelectedListener {
             override fun onItemSelected(parent: AdapterView<*>, view: View?, position: Int, id: Long) {

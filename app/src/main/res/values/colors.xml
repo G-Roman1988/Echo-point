@@ -9,4 +9,5 @@
     <color name="white">#FFFFFFFF</color>
     <color name="dark_green">#006400</color>
     <color name="background_color_appbar">#6200EE</color>
+    <color name="Spinner_background_color">#FABE00</color>
 </resources>

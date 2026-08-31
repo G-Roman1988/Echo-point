@@ -1,0 +1,20 @@
+<?xml version="1.0" encoding="utf-8"?>
+<layer-list xmlns:android="http://schemas.android.com/apk/res/android">
+
+    <!-- Fundal albastru cer senin cu colturi rotunjite -->
+    <item>
+        <shape android:shape="rectangle">
+            <solid android:color="@color/Spinner_background_color" />
+            <corners android:radius="8dp" />
+        </shape>
+    </item>
+
+    <!-- Sageata alba jos — plasata la dreapta, centrata vertical -->
+    <item
+        android:width="24dp"
+        android:height="24dp"
+        android:gravity="end|center_vertical"
+        android:right="8dp"
+        android:drawable="@drawable/ic_arrow_drop_down_white" />
+
+</layer-list>

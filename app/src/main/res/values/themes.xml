@@ -5,7 +5,8 @@
         <item name="buttonStyle">@style/GlobalButtonStyle</item>
         <item name="android:windowBackground">@color/black</item>
         <item name="android:textViewStyle">@style/CustomTextViewStyle</item>
-
+        <item name="colorPrimary">@color/dark_green</item>
+        <item name="colorOnPrimary">@color/white</item>
 <item name="appBarLayoutStyle">@style/CustomAppBarStyle</item>
         <item name="toolbarStyle">@style/CustomToolbarStyle</item>
 

@@ -34,6 +34,7 @@ private val notificationManager by lazy { getSystemService(NOTIFICATION_SERVICE)
         beaconManager.setBackgroundBetweenScanPeriod(0L)
         val parser = BeaconParser().setBeaconLayout("m:2-3=0215,i:4-19,i:20-21,i:22-23,p:24-24")
         parser.setHardwareAssistManufacturerCodes(arrayOf(0x004c).toIntArray())
+
         beaconManager.beaconParsers.add(parser) //getBeaconParsers()
     DataRepository.dataPreparation(this)
         createStatusNotificationChannel()
